@@ -1,6 +1,6 @@
 # 🌿 EcoQuest  
-[Live Demo](https://ecovista25.github.io/EcoQuest/) | Problem Statement ID: 25009
-
+# [Live Demo](https://ecovista25.github.io/EcoQuest/) | Problem Statement ID: 25009
+## Gamified Environmental Education Platform
 ---
 
 ## 🌍 Project Overview  

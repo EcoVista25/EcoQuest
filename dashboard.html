@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | EcoQuest | Learn</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        .eco-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Mobile Menu Button -->
+    <button id="mobileMenuButton" class="md:hidden fixed top-4 left-4 z-50 bg-white p-2 rounded-lg shadow-lg">
+        <i data-feather="menu"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-40">
+        <div class="flex items-center justify-center h-16 px-4 border-b">
+            <div class="flex items-center space-x-2">
+                <i data-feather="leaf" class="text-green-500"></i>
+                <span class="text-xl font-bold">EcoQuest | Learn</span>
+            </div>
+        </div>
+        <div class="p-4">
+            <div class="flex items-center space-x-3 mb-6 p-3 bg-blue-50 rounded-lg">
+                <div class="w-12 h-12 rounded-full overflow-hidden">
+                    <img src="http://static.photos/people/200x200/4" alt="User" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <h4 class="font-medium">Kamran Alvi</h4>
+                    <p class="text-xs text-gray-500">Class 9, Delhi Public School</p>
+                </div>
+            </div>
+            
+            <nav class="space-y-1">
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 bg-blue-100 text-blue-600 rounded-lg font-medium">
+                    <i data-feather="home" class="w-5 h-5"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <i data-feather="book" class="w-5 h-5"></i>
+                    <span>Lessons</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <i data-feather="check-circle" class="w-5 h-5"></i>
+                    <span>Quizzes</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <i data-feather="award" class="w-5 h-5"></i>
+                    <span>Challenges</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <i data-feather="users" class="w-5 h-5"></i>
+                    <span>Community</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <i data-feather="trending-up" class="w-5 h-5"></i>
+                    <span>Progress</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                    <i data-feather="settings" class="w-5 h-5"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            
+            <div class="absolute bottom-0 left-0 right-0 p-4 border-t">
+                <button class="flex items-center space-x-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg w-full">
+                    <i data-feather="log-out" class="w-5 h-5"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="md:ml-64">
+        <!-- Header -->
+        <header class="bg-white shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex justify-between items-center">
+                <h1 class="text-xl font-semibold text-gray-900">Dashboard</h1>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button id="notificationsButton" class="p-2 rounded-full hover:bg-gray-100">
+                            <i data-feather="bell"></i>
+                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <button id="profileButton" class="flex items-center space-x-2">
+                            <span class="hidden sm:inline-block text-sm font-medium">Kamran Alvi</span>
+                            <div class="w-8 h-8 rounded-full overflow-hidden">
+                                <img src="http://static.photos/people/200x200/4" alt="User" class="w-full h-full object-cover">
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <main class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+            <!-- Welcome Banner -->
+            <div class="gradient-bg text-white rounded-xl p-6 mb-6" data-aos="fade-up">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div>
+                        <h2 class="text-2xl font-bold mb-2">Welcome back, Kamran!</h2>
+                        <p class="max-w-2xl">You've earned 350 EcoPoints this week. Keep up the good work and complete today's challenge to earn more!</p>
+                    </div>
+                    <button class="mt-4 md:mt-0 bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-gray-100 transition">
+                        Today's Challenge
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                <!-- Card 1 -->
+                <div class="bg-white rounded-xl shadow-sm p-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">EcoPoints</p>
+                            <h3 class="text-2xl font-bold mt-1">1,250</h3>
+                        </div>
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                            <i data-feather="star" class="text-blue-600"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center justify-between text-sm">
+                            <span>Weekly Target: 500</span>
+                            <span>250%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="bg-white rounded-xl shadow-sm p-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Completed Lessons</p>
+                            <h3 class="text-2xl font-bold mt-1">12</h3>
+                        </div>
+                        <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
+                            <i data-feather="book" class="text-green-600"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center justify-between text-sm">
+                            <span>This Month: 5</span>
+                            <span>+25%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                            <div class="bg-green-600 h-2 rounded-full" style="width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 3 -->
+                <div class="bg-white rounded-xl shadow-sm p-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Active Challenges</p>
+                            <h3 class="text-2xl font-bold mt-1">3</h3>
+                        </div>
+                        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
+                            <i data-feather="award" class="text-purple-600"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center justify-between text-sm">
+                            <span>Completed: 8</span>
+                            <span>+60%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                            <div class="bg-purple-600 h-2 rounded-full" style="width: 60%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 4 -->
+                <div class="bg-white rounded-xl shadow-sm p-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">School Rank</p>
+                            <h3 class="text-2xl font-bold mt-1">#5</h3>
+                        </div>
+                        <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center">
+                            <i data-feather="trending-up" class="text-yellow-600"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center justify-between text-sm">
+                            <span>Total Schools: 42</span>
+                            <span>Top 12%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                            <div class="bg-yellow-600 h-2 rounded-full" style="width: 88%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left Column -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Current Challenge -->
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden" data-aos="fade-up">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-semibold">Current Challenge</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
+                                <div class="w-full md:w-1/3">
+                                    <div class="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg overflow-hidden">
+                                        <img src="http://static.photos/nature/640x360/5" alt="Challenge" class="w-full h-full object-cover">
+                                    </div>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="text-xl font-bold mb-2">Waste Segregation Drive</h4>
+                                    <p class="text-gray-600 mb-4">Learn how to properly segregate waste and implement it in your school or home for one week.</p>
+                                    <div class="flex flex-wrap gap-2 mb-4">
+                                        <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">+150 EcoPoints</span>
+                                        <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">Sustainability</span>
+                                        <span class="px-3 py-1 bg-purple-100 text-purple-800 text-xs font-medium rounded-full">7 days</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                                        <div class="bg-green-600 h-2 rounded-full" style="width: 40%"></div>
+                                    </div>
+                                    <div class="flex justify-between text-sm text-gray-500 mb-4">
+                                        <span>3 days remaining</span>
+                                        <span>2/5 tasks completed</span>
+                                    </div>
+                                    <button class="gradient-bg text-white px-6 py-2 rounded-lg font-medium hover:opacity-90 transition">
+                                        Continue Challenge
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommended Lessons -->
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                        <div class="p-6 border-b flex justify-between items-center">
+                            <h3 class="text-lg font-semibold">Recommended Lessons</h3>
+                            <a href="#" class="text-sm text-blue-600 hover:text-blue-800">View All</a>
+                        </div>
+                        <div class="divide-y">
+                            <!-- Lesson 1 -->
+                            <div class="p-6 hover:bg-gray-50 transition cursor-pointer">
+                                <div class="flex items-start gap-4">
+                                    <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <i data-feather="droplet" class="text-blue-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold mb-1">Water Conservation</h4>
+                                        <p class="text-gray-600 text-sm mb-2">Learn about water scarcity and practical ways to conserve water in daily life.</p>
+                                        <div class="flex items-center text-sm text-gray-500">
+                                            <i data-feather="clock" class="w-4 h-4 mr-1"></i>
+                                            <span class="mr-4">15 min</span>
+                                            <i data-feather="bar-chart-2" class="w-4 h-4 mr-1"></i>
+                                            <span>Intermediate</span>
+                                        </div>
+                                    </div>
+                                    <button class="ml-auto px-4 py-1 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg text-sm font-medium transition">
+                                        Start
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Lesson 2 -->
+                            <div class="p-6 hover:bg-gray-50 transition cursor-pointer">
+                                <div class="flex items-start gap-4">
+                                    <div class="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <i data-feather="wind" class="text-green-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold mb-1">Renewable Energy</h4>
+                                        <p class="text-gray-600 text-sm mb-2">Explore different types of renewable energy sources and their importance.</p>
+                                        <div class="flex items-center text-sm text-gray-500">
+                                            <i data-feather="clock" class="w-4 h-4 mr-1"></i>
+                                            <span class="mr-4">20 min</span>
+                                            <i data-feather="bar-chart-2" class="w-4 h-4 mr-1"></i>
+                                            <span>Beginner</span>
+                                        </div>
+                                    </div>
+                                    <button class="ml-auto px-4 py-1 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg text-sm font-medium transition">
+                                        Start
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Lesson 3 -->
+                            <div class="p-6 hover:bg-gray-50 transition cursor-pointer">
+                                <div class="flex items-start gap-4">
+                                    <div class="w-16 h-16 bg-yellow-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <i data-feather="shopping-bag" class="text-yellow-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold mb-1">Sustainable Shopping</h4>
+                                        <p class="text-gray-600 text-sm mb-2">How to make environmentally friendly choices when shopping for daily needs.</p>
+                                        <div class="flex items-center text-sm text-gray-500">
+                                            <i data-feather="clock" class="w-4 h-4 mr-1"></i>
+                                            <span class="mr-4">10 min</span>
+                                            <i data-feather="bar-chart-2" class="w-4 h-4 mr-1"></i>
+                                            <span>Beginner</span>
+                                        </div>
+                                    </div>
+                                    <button class="ml-auto px-4 py-1 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg text-sm font-medium transition">
+                                        Start
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="space-y-6">
+                    <!-- Progress -->
+                    <div class="bg-white rounded-xl shadow-sm p-6" data-aos="fade-up" data-aos-delay="200">
+                        <h3 class="text-lg font-semibold mb-4">Your Progress</h3>
+                        <div class="flex justify-center mb-6">
+                            <div class="relative w-40 h-40">
+                                <svg class="w-full h-full" viewBox="0 0 100 100">
+                                    <circle class="text-gray-200" stroke-width="8" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" />
+                                    <circle class="text-green-500 progress-ring__circle" stroke-width="8" stroke-linecap="round" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" stroke-dasharray="251.2" stroke-dashoffset="calc(251.2 - (251.2 * 65) / 100)" />
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center flex-col">
+                                    <span class="text-2xl font-bold">65%</span>
+                                    <span class="text-xs text-gray-500">Monthly Goal</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-medium text-gray-600">Lessons Completed</span>
+                                <span class="text-sm font-semibold">12/20</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-blue-600 h-2 rounded-full" style="width: 60%"></div>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-medium text-gray-600">Challenges Completed</span>
+                                <span class="text-sm font-semibold">8/12</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-purple-600 h-2 rounded-full" style="width: 66%"></div>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-medium text-gray-600">Quizzes Passed</span>
+                                <span class="text-sm font-semibold">7/10</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-yellow-600 h-2 rounded-full" style="width: 70%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Badges -->
+                    <div class="bg-white rounded-xl shadow-sm p-6" data-aos="fade-up" data-aos-delay="300">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold">Recent Badges</h3>
+                            <a href="#" class="text-sm text-blue-600 hover:text-blue-800">View All</a>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-2">
+                                    <i data-feather="award" class="text-yellow-600"></i>
+                                </div>
+                                <span class="text-xs font-medium text-center">Eco Warrior</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-2">
+                                    <i data-feather="zap" class="text-green-600"></i>
+                                </div>
+                                <span class="text-xs font-medium text-center">Energy Saver</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-2">
+                                    <i data-feather="droplet" class="text-blue-600"></i>
+                                </div>
+                                <span class="text-xs font-medium text-center">Water Guardian</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-2">
+                                    <i data-feather="repeat" class="text-purple-600"></i>
+                                </div>
+                                <span class="text-xs font-medium text-center">Recycler</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-2">
+                                    <i data-feather="tree" class="text-red-600"></i>
+                                </div>
+                                <span class="text-xs font-medium text-center">Tree Hugger</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-2">
+                                    <i data-feather="sun" class="text-indigo-600"></i>
+                                </div>
+                                <span class="text-xs font-medium text-center">Solar Champion</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- School Leaderboard -->
+                    <div class="bg-white rounded-xl shadow-sm p-6" data-aos="fade-up" data-aos-delay="400">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold">School Leaderboard</h3>
+                            <a href="#" class="text-sm text-blue-600 hover:text-blue-800">View All</a>
+                        </div>
+                        <div class="space-y-4">
+                            <!-- School 1 -->
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                    <span class="text-yellow-800 font-bold text-sm">1</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium truncate">Green Valley Public School</p>
+                                    <p class="text-xs text-gray-500">5,200 EcoPoints</p>
+                                </div>
+                                <div class="w-8 h-8 rounded-full overflow-hidden">
+                                    <img src="http://static.photos/education/200x200/1" alt="School" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            
+                            <!-- School 2 -->
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                    <span class="text-gray-800 font-bold text-sm">2</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium truncate">Sunshine International</p>
+                                    <p class="text-xs text-gray-500">4,850 EcoPoints</p>
+                                </div>
+                                <div class="w-8 h-8 rounded-full overflow-hidden">
+                                    <img src="http://static.photos/education/200x200/2" alt="School" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            
+                            <!-- School 3 -->
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                    <span class="text-amber-800 font-bold text-sm">3</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium truncate">Earth Guardians Academy</p>
+                                    <p class="text-xs text-gray-500">4,600 EcoPoints</p>
+                                </div>
+                                <div class="w-8 h-8 rounded-full overflow-hidden">
+                                    <img src="http://static.photos/education/200x200/3" alt="School" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            
+                            <!-- School 4 -->
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                    <span class="text-gray-800 font-bold text-sm">4</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium truncate">Nature's Wisdom School</p>
+                                    <p class="text-xs text-gray-500">4,200 EcoPoints</p>
+                                </div>
+                                <div class="w-8 h-8 rounded-full overflow-hidden">
+                                    <img src="http://static.photos/education/200x200/4" alt="School" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            
+                            <!-- School 5 (Your School) -->
+                            <div class="flex items-center bg-blue-50 p-2 rounded-lg">
+                                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                    <span class="text-blue-800 font-bold text-sm">5</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium truncate">Delhi Public School</p>
+                                    <p class="text-xs text-gray-500">3,750 EcoPoints</p>
+                                </div>
+                                <div class="w-8 h-8 rounded-full overflow-hidden">
+                                    <img src="http://static.photos/education/200x200/5" alt="School" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+            feather.replace();
+        });
+
+        // Initialize animations and icons
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+            feather.replace();
+            
+            // Calculate progress ring dash offset
+            const circle = document.querySelector('.progress-ring__circle');
+            const radius = circle.r.baseVal.value;
+            const circumference = radius * 2 * Math.PI;
+            circle.style.strokeDasharray = circumference;
+            circle.style.strokeDashoffset = circumference - (65 / 100 * circumference);
+        });
+    </script>
+</body>
+</html>

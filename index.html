@@ -70,7 +70,7 @@
     .nav-link {
         text-decoration: none;
         color: #333;
-        font-weight: 500;
+        font-weight: 900;
         transition: color 0.3s ease;
         position: relative;
     }
@@ -1009,9 +1009,9 @@
                         India's first gamified environmental education platform transforming how students learn about sustainability through interactive challenges and real-world impact.
                     </p>
                     <div class="hero-buttons">
-                        <button class="btn btn-primary">
-                            Get Started
-                            <i class="fas fa-chevron-right"></i>
+                        <button class="btn btn-primary" id="getStartedBtn">
+                        Get Started
+                        <i class="fas fa-chevron-right"></i>
                         </button>
                         <button class="btn btn-secondary" id="watchDemoBtn">
                             <i class="fas fa-play"></i>
@@ -1481,31 +1481,35 @@
     
     });
 
-          // Modal video popup scripts
-      const watchDemoBtn = document.getElementById('watchDemoBtn');
-      const demoModalOverlay = document.getElementById('demoModalOverlay');
-      const closeDemoModalBtn = document.getElementById('closeDemoModalBtn');
-      const demoVideo = demoModalOverlay.querySelector('video');
+    const watchDemoBtn = document.getElementById('watchDemoBtn');
+    const demoModalOverlay = document.getElementById('demoModalOverlay');
+    const closeDemoModalBtn = document.getElementById('closeDemoModalBtn');
+    const demoVideo = demoModalOverlay.querySelector('video');
 
-      watchDemoBtn.addEventListener('click', () => {
-        demoModalOverlay.classList.add('open');
-        // Play video when modal is shown
-        demoVideo.play();
-      });
+    watchDemoBtn.addEventListener('click', () => {
+    demoModalOverlay.classList.add('open');
+    demoVideo.play();
+    });
 
-      const closeModal = () => {
-        demoModalOverlay.classList.remove('open');
-        // Pause and reset video when modal is closed
-        demoVideo.pause();
-        demoVideo.currentTime = 0;
-      };
+    const closeModal = () => {
+    demoModalOverlay.classList.remove('open');
+    demoVideo.pause();
+    demoVideo.currentTime = 0;
+    };
 
-      closeDemoModalBtn.addEventListener('click', closeModal);
-      demoModalOverlay.addEventListener('click', (e) => {
-        if (e.target === demoModalOverlay) {
-          closeModal();
-        }
-      });
+    closeDemoModalBtn.addEventListener('click', closeModal);
+    demoModalOverlay.addEventListener('click', (e) => {
+    if (e.target === demoModalOverlay) {
+        closeModal();
+    }
+    });
+
+    const getStartedBtn = document.getElementById('getStartedBtn');
+
+    getStartedBtn.addEventListener('click', () => {
+    loginOverlay.classList.remove('hidden');
+    });
     </script> 
 </body>
 </html>
+

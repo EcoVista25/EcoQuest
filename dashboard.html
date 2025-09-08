@@ -4,97 +4,1408 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | EcoQuest | Learn</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23059669'><path d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/></svg>">
+    <link rel="stylesheet" href="styles.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
-    <style>
-        .gradient-bg {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-        .eco-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-        .progress-ring__circle {
-            transition: stroke-dashoffset 0.35s;
-            transform: rotate(-90deg);
-            transform-origin: 50% 50%;
-        }
-        .sidebar {
-            transition: all 0.3s ease;
-        }
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            .sidebar.active {
-                transform: translateX(0);
-            }
-        }
-    </style>
+<style>/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #3b82f6;
+    --primary-light: #dbeafe;
+    --primary-dark: #1d4ed8;
+    --secondary-color: #10b981;
+    --secondary-light: #d1fae5;
+    --accent-color: #f59e0b;
+    --accent-light: #fef3c7;
+    --purple-color: #8b5cf6;
+    --purple-light: #ede9fe;
+    --red-color: #ef4444;
+    --red-light: #fee2e2;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+    --white: #ffffff;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --transition: all 0.3s ease;
+    --border-radius: 12px;
+    --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    line-height: 1.6;
+    color: var(--gray-900);
+    background-color: var(--gray-50);
+}
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 100;
+    display: none;
+    background: var(--white);
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: var(--shadow-lg);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.mobile-menu-btn svg {
+    width: 24px;
+    height: 24px;
+    color: var(--gray-700);
+}
+
+.mobile-menu-btn:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-xl);
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 256px;
+    height: 100vh;
+    background: var(--white);
+    box-shadow: var(--shadow-lg);
+    z-index: 50;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--gray-200);
+    flex-shrink: 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 1.125rem;
+}
+
+.logo svg {
+    width: 24px;
+    height: 24px;
+    color: var(--secondary-color);
+}
+
+.sidebar-content {
+    flex: 1;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--primary-light);
+    padding: 12px;
+    border-radius: var(--border-radius);
+    margin-bottom: 1.5rem;
+}
+
+.user-avatar, .profile-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--gray-900);
+}
+
+.user-school {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+}
+
+/* Sidebar Navigation */
+.sidebar-nav {
+    flex: 1;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    color: var(--gray-600);
+    font-weight: 500;
+    transition: var(--transition);
+    margin-bottom: 4px;
+}
+
+.nav-item svg {
+    width: 20px;
+    height: 20px;
+}
+
+.nav-item:hover {
+    background-color: var(--gray-100);
+    color: var(--gray-900);
+}
+
+.nav-item.active {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+}
+
+.sidebar-footer {
+    padding-top: 1rem;
+    border-top: 1px solid var(--gray-200);
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px;
+    background: none;
+    border: none;
+    border-radius: var(--border-radius);
+    color: var(--gray-600);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.logout-btn:hover {
+    background-color: var(--red-light);
+    color: var(--red-color);
+}
+
+.logout-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Mobile Sidebar */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 256px;
+    min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+    }
+}
+
+/* Header */
+.header {
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 40;
+}
+
+.header-content {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Notifications */
+.notification-wrapper {
+    position: relative;
+}
+
+.notification-btn {
+    position: relative;
+    background: none;
+    border: none;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.notification-btn:hover {
+    background-color: var(--gray-100);
+}
+
+.notification-btn svg {
+    width: 20px;
+    height: 20px;
+    color: var(--gray-600);
+}
+
+.notification-dot {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 8px;
+    height: 8px;
+    background: var(--red-color);
+    border-radius: 50%;
+    border: 2px solid var(--white);
+}
+
+.notifications-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 320px;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-xl);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.dropdown-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.dropdown-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.mark-all-read {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.notifications-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    padding: 1rem;
+    border-bottom: 1px solid var(--gray-100);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.notification-item:hover {
+    background-color: var(--gray-50);
+}
+
+.notification-item.unread {
+    background-color: var(--primary-light);
+}
+
+.notification-title {
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 4px;
+}
+
+.notification-message {
+    font-size: 0.75rem;
+    color: var(--gray-600);
+    margin-bottom: 4px;
+}
+
+.notification-time {
+    font-size: 0.75rem;
+    color: var(--gray-400);
+}
+
+/* Profile Dropdown */
+.profile-wrapper {
+    position: relative;
+}
+
+.profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.profile-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--gray-900);
+}
+
+.profile-avatar {
+    width: 32px;
+    height: 32px;
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 200px;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-xl);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.profile-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 1rem;
+    color: var(--gray-700);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.profile-dropdown-item:hover {
+    background-color: var(--gray-50);
+}
+
+.profile-dropdown-item.logout-item:hover {
+    background-color: var(--red-light);
+    color: var(--red-color);
+}
+
+.profile-dropdown-item svg {
+    width: 16px;
+    height: 16px;
+}
+
+.profile-dropdown hr {
+    margin: 0;
+    border: none;
+    border-top: 1px solid var(--gray-200);
+}
+
+@media (max-width: 640px) {
+    .profile-name {
+        display: none;
+    }
+}
+
+/* Dashboard Content */
+.dashboard-content {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+/* Welcome Banner */
+.welcome-banner {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: var(--white);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.banner-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.banner-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.banner-description {
+    max-width: 600px;
+    opacity: 0.9;
+}
+
+.challenge-btn {
+    background: var(--white);
+    color: var(--primary-color);
+    border: none;
+    padding: 12px 24px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    flex-shrink: 0;
+}
+
+.challenge-btn:hover {
+    background-color: var(--gray-100);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+@media (max-width: 768px) {
+    .banner-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .banner-title {
+        font-size: 1.25rem;
+    }
+    
+    .challenge-btn {
+        align-self: stretch;
+    }
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--gray-500);
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--gray-900);
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.stat-icon.blue {
+    background-color: var(--primary-light);
+}
+
+.stat-icon.blue svg {
+    color: var(--primary-color);
+}
+
+.stat-icon.green {
+    background-color: var(--secondary-light);
+}
+
+.stat-icon.green svg {
+    color: var(--secondary-color);
+}
+
+.stat-icon.purple {
+    background-color: var(--purple-light);
+}
+
+.stat-icon.purple svg {
+    color: var(--purple-color);
+}
+
+.stat-icon.yellow {
+    background-color: var(--accent-light);
+}
+
+.stat-icon.yellow svg {
+    color: var(--accent-color);
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    margin-bottom: 4px;
+}
+
+.progress-label {
+    color: var(--gray-600);
+}
+
+.progress-percentage {
+    color: var(--gray-900);
+    font-weight: 500;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: var(--gray-200);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1s ease;
+}
+
+.progress-fill.blue {
+    background-color: var(--primary-color);
+}
+
+.progress-fill.green {
+    background-color: var(--secondary-color);
+}
+
+.progress-fill.purple {
+    background-color: var(--purple-color);
+}
+
+.progress-fill.yellow {
+    background-color: var(--accent-color);
+}
+
+/* Content Grid */
+.content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.left-column, .right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Card Styles */
+.challenge-card, .lessons-card, .progress-card, .badges-card, .leaderboard-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--gray-200);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.view-all-link {
+    font-size: 0.875rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.view-all-link:hover {
+    color: var(--primary-dark);
+}
+
+/* Challenge Card */
+.challenge-content {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.5rem;
+}
+
+.challenge-image {
+    width: 33.333%;
+    aspect-ratio: 16/9;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.challenge-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.challenge-info {
+    flex: 1;
+}
+
+.challenge-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.challenge-description {
+    color: var(--gray-600);
+    margin-bottom: 1rem;
+}
+
+.challenge-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.tag {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.tag.blue {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+}
+
+.tag.green {
+    background-color: var(--secondary-light);
+    color: var(--secondary-color);
+}
+
+.tag.purple {
+    background-color: var(--purple-light);
+    color: var(--purple-color);
+}
+
+.challenge-progress {
+    margin-bottom: 1rem;
+}
+
+.progress-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    color: var(--gray-500);
+    margin-top: 8px;
+}
+
+.continue-btn {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: var(--white);
+    border: none;
+    padding: 12px 24px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.continue-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+@media (max-width: 768px) {
+    .challenge-content {
+        flex-direction: column;
+    }
+    
+    .challenge-image {
+        width: 100%;
+    }
+}
+
+/* Lessons Card */
+.lessons-list {
+    divide-y: 1px solid var(--gray-200);
+}
+
+.lesson-item {
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.lesson-item:hover {
+    background-color: var(--gray-50);
+}
+
+.lesson-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.lesson-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.lesson-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.lesson-info {
+    flex: 1;
+}
+
+.lesson-title {
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.lesson-description {
+    color: var(--gray-600);
+    font-size: 0.875rem;
+    margin-bottom: 8px;
+}
+
+.lesson-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: var(--gray-500);
+}
+
+.lesson-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.lesson-meta svg {
+    width: 16px;
+    height: 16px;
+}
+
+.lesson-start-btn {
+    padding: 8px 16px;
+    background-color: var(--gray-100);
+    border: none;
+    border-radius: var(--border-radius);
+    color: var(--gray-800);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.lesson-start-btn:hover {
+    background-color: var(--gray-200);
+}
+
+/* Progress Card */
+.progress-card {
+    padding: 1.5rem;
+}
+
+.progress-circle-container {
+    display: flex;
+    justify-center;
+    margin-bottom: 1.5rem;
+}
+
+.progress-circle {
+    position: relative;
+    width: 160px;
+    height: 160px;
+}
+
+.progress-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.progress-bg, .progress-ring {
+    fill: none;
+    stroke-width: 8;
+}
+
+.progress-bg {
+    stroke: var(--gray-200);
+}
+
+.progress-ring {
+    stroke: var(--secondary-color);
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s ease;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.progress-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+}
+
+.progress-details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.progress-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.progress-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.progress-detail-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--gray-600);
+}
+
+.progress-detail-value {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+/* Badges Card */
+.badges-card {
+    padding: 1.5rem;
+}
+
+.badges-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.badge-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.badge-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.badge-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.badge-name {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--gray-700);
+}
+
+/* Leaderboard Card */
+.leaderboard-card {
+    padding: 1.5rem;
+}
+
+.leaderboard-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.leaderboard-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.leaderboard-item.current {
+    background-color: var(--primary-light);
+    padding: 8px;
+    border-radius: var(--border-radius);
+}
+
+.rank-badge {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+}
+
+.rank-badge.first {
+    background-color: var(--accent-light);
+    color: var(--accent-color);
+}
+
+.rank-badge.second {
+    background-color: var(--gray-200);
+    color: var(--gray-800);
+}
+
+.rank-badge.third {
+    background-color: #fcd34d;
+    color: #92400e;
+}
+
+.rank-badge.current {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+}
+
+.rank-badge.default {
+    background-color: var(--white);
+    color: var(--gray-800);
+}
+
+.school-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.school-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--gray-900);
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.school-points {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+}
+
+.school-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.school-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Toast Notifications */
+.toast-container {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.toast {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 1rem 1.5rem;
+    box-shadow: var(--shadow-xl);
+    border-left: 4px solid;
+    max-width: 400px;
+    animation: slideIn 0.3s ease;
+}
+
+.toast.success {
+    border-left-color: var(--secondary-color);
+}
+
+.toast.error {
+    border-left-color: var(--red-color);
+}
+
+.toast.info {
+    border-left-color: var(--primary-color);
+}
+
+.toast-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.toast-message {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Utility Classes */
+.hidden {
+    display: none;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .dashboard-content {
+        padding: 1rem;
+    }
+    
+    .welcome-banner {
+        padding: 1.5rem;
+    }
+    
+    .banner-title {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .stat-card {
+        padding: 1rem;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem;
+    }
+    
+    .welcome-banner {
+        padding: 1rem;
+    }
+    
+    .banner-title {
+        font-size: 1.125rem;
+    }
+    
+    .badge-icon {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .badges-grid {
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .lesson-content {
+        gap: 0.75rem;
+    }
+    
+    .lesson-icon {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .lesson-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    
+    .progress-circle {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .progress-value {
+        font-size: 1.25rem;
+    }
+}
+
+/* Dark mode support (for future enhancement) */
+@media (prefers-color-scheme: dark) {
+    /* Dark mode styles would go here */
+}
+
+/* Print styles */
+@media print {
+    .sidebar,
+    .mobile-menu-btn,
+    .header-actions {
+        display: none !important;
+    }
+    
+    .main-content {
+        margin-left: 0 !important;
+    }
+}</style>
 </head>
 <body class="bg-gray-50 font-sans">
     <!-- Mobile Menu Button -->
-    <button id="mobileMenuButton" class="md:hidden fixed top-4 left-4 z-50 bg-white p-2 rounded-lg shadow-lg">
-        <i data-feather="menu"></i>
+    <button id="mobileMenuButton" class="mobile-menu-btn">
+        <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <svg class="close-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
     </button>
 
     <!-- Sidebar -->
-    <div id="sidebar" class="sidebar fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-40">
-        <div class="flex items-center justify-center h-16 px-4 border-b">
-            <div class="flex items-center space-x-2">
-                <i data-feather="leaf" class="text-green-500"></i>
-                <span class="text-xl font-bold">EcoQuest | Learn</span>
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 8c0 7-5 9-5 9s-5-2-5-9a5 5 0 0 1 10 0z"></path>
+                    <path d="m12 2-3 7 3 7 3-7-3-7z"></path>
+                </svg>
+                <span class="logo-text">EcoQuest | Learn</span>
             </div>
         </div>
-        <div class="p-4">
-            <div class="flex items-center space-x-3 mb-6 p-3 bg-blue-50 rounded-lg">
-                <div class="w-12 h-12 rounded-full overflow-hidden">
-                    <img src="http://static.photos/people/200x200/4" alt="User" class="w-full h-full object-cover">
+        
+        <div class="sidebar-content">
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?w=200&h=200&fit=crop&crop=faces" alt="User" class="avatar-img">
                 </div>
-                <div>
-                    <h4 class="font-medium">Kamran Alvi</h4>
-                    <p class="text-xs text-gray-500">Class 9, Delhi Public School</p>
+                <div class="user-info">
+                    <h4 class="user-name">Kamran Alvi</h4>
+                    <p class="user-school">Class 9, Delhi Public School</p>
                 </div>
             </div>
             
-            <nav class="space-y-1">
-                <a href="#" class="flex items-center space-x-3 px-3 py-2 bg-blue-100 text-blue-600 rounded-lg font-medium">
-                    <i data-feather="home" class="w-5 h-5"></i>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="dashboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9,22 9,12 15,12 15,22"></polyline>
+                    </svg>
                     <span>Dashboard</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
-                    <i data-feather="book" class="w-5 h-5"></i>
+                <a href="#" class="nav-item" data-section="lessons">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
                     <span>Lessons</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
-                    <i data-feather="check-circle" class="w-5 h-5"></i>
+                <a href="#" class="nav-item" data-section="quizzes">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22,4 12,14.01 9,11.01"></polyline>
+                    </svg>
                     <span>Quizzes</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
-                    <i data-feather="award" class="w-5 h-5"></i>
+                <a href="#" class="nav-item" data-section="challenges">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="8" r="7"></circle>
+                        <polyline points="8.21,13.89 7,23 12,20 17,23 15.79,13.88"></polyline>
+                    </svg>
                     <span>Challenges</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
-                    <i data-feather="users" class="w-5 h-5"></i>
+                <a href="#" class="nav-item" data-section="community">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="m22 21-3-3m0 0a5 5 0 1 0-7-7 5 5 0 0 0 7 7z"></path>
+                    </svg>
                     <span>Community</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
-                    <i data-feather="trending-up" class="w-5 h-5"></i>
+                <a href="#" class="nav-item" data-section="progress">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
+                    </svg>
                     <span>Progress</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
-                    <i data-feather="settings" class="w-5 h-5"></i>
+                <a href="#" class="nav-item" data-section="settings">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="m12 1 2.09 1.26L16 2l1 1.74-1.26 2.09L17 7l-1.74 1-2.09-1.26L12 8l-1.17-1.26L9 7l-1 1.74 1.26 2.09L7 12l1.74 1 2.09-1.26L12 13l1.17 1.26L15 14l1-1.74-1.26-2.09L17 9l-1.74-1-2.09 1.26L12 8z"></path>
+                    </svg>
                     <span>Settings</span>
                 </a>
             </nav>
             
-            <div class="absolute bottom-0 left-0 right-0 p-4 border-t">
-                <button class="flex items-center space-x-3 px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg w-full">
-                    <i data-feather="log-out" class="w-5 h-5"></i>
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="logout-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16,17 21,12 16,7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
                     <span>Logout</span>
                 </button>
             </div>
@@ -102,417 +1413,278 @@
     </div>
 
     <!-- Main Content -->
-    <div class="md:ml-64">
+    <div class="main-content">
         <!-- Header -->
-        <header class="bg-white shadow-sm">
-            <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex justify-between items-center">
-                <h1 class="text-xl font-semibold text-gray-900">Dashboard</h1>
-                <div class="flex items-center space-x-4">
-                    <div class="relative">
-                        <button id="notificationsButton" class="p-2 rounded-full hover:bg-gray-100">
-                            <i data-feather="bell"></i>
-                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+        <header class="header">
+            <div class="header-content">
+                <h1 id="pageTitle" class="page-title">Dashboard</h1>
+                <div class="header-actions">
+                    <div class="notification-wrapper">
+                        <button id="notificationsButton" class="notification-btn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="m13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                            <span id="notificationDot" class="notification-dot"></span>
                         </button>
+                        
+                        <!-- Notifications Dropdown -->
+                        <div id="notificationsDropdown" class="notifications-dropdown hidden">
+                            <div class="dropdown-header">
+                                <h3>Notifications</h3>
+                                <button id="markAllRead" class="mark-all-read">Mark all read</button>
+                            </div>
+                            <div id="notificationsList" class="notifications-list">
+                                <!-- Notifications will be populated by JS -->
+                            </div>
+                        </div>
                     </div>
-                    <div class="relative">
-                        <button id="profileButton" class="flex items-center space-x-2">
-                            <span class="hidden sm:inline-block text-sm font-medium">Kamran Alvi</span>
-                            <div class="w-8 h-8 rounded-full overflow-hidden">
-                                <img src="http://static.photos/people/200x200/4" alt="User" class="w-full h-full object-cover">
+                    
+                    <div class="profile-wrapper">
+                        <button id="profileButton" class="profile-btn">
+                            <span class="profile-name">Kamran Alvi</span>
+                            <div class="profile-avatar">
+                                <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?w=200&h=200&fit=crop&crop=faces" alt="User" class="avatar-img">
                             </div>
                         </button>
+                        
+                        <!-- Profile Dropdown -->
+                        <div id="profileDropdown" class="profile-dropdown hidden">
+                            <div class="profile-dropdown-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                <span>Profile</span>
+                            </div>
+                            <div class="profile-dropdown-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                    <path d="m12 1 2.09 1.26L16 2l1 1.74-1.26 2.09L17 7l-1.74 1-2.09-1.26L12 8l-1.17-1.26L9 7l-1 1.74 1.26 2.09L7 12l1.74 1 2.09-1.26L12 13l1.17 1.26L15 14l1-1.74-1.26-2.09L17 9l-1.74-1-2.09 1.26L12 8z"></path>
+                                </svg>
+                                <span>Settings</span>
+                            </div>
+                            <hr>
+                            <div class="profile-dropdown-item logout-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                    <polyline points="16,17 21,12 16,7"></polyline>
+                                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                                </svg>
+                                <span>Logout</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </header>
 
         <!-- Dashboard Content -->
-        <main class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+        <main id="mainContent" class="dashboard-content">
             <!-- Welcome Banner -->
-            <div class="gradient-bg text-white rounded-xl p-6 mb-6" data-aos="fade-up">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
-                    <div>
-                        <h2 class="text-2xl font-bold mb-2">Welcome back, Kamran!</h2>
-                        <p class="max-w-2xl">You've earned 350 EcoPoints this week. Keep up the good work and complete today's challenge to earn more!</p>
+            <div class="welcome-banner" data-aos="fade-up">
+                <div class="banner-content">
+                    <div class="banner-text">
+                        <h2 class="banner-title">Welcome back, Kamran!</h2>
+                        <p class="banner-description">You've earned <span id="weeklyPoints">350</span> EcoPoints this week. Keep up the good work and complete today's challenge to earn more!</p>
                     </div>
-                    <button class="mt-4 md:mt-0 bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-gray-100 transition">
+                    <button id="todaysChallengeBtn" class="challenge-btn">
                         Today's Challenge
                     </button>
                 </div>
             </div>
 
             <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-                <!-- Card 1 -->
-                <div class="bg-white rounded-xl shadow-sm p-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-500">EcoPoints</p>
-                            <h3 class="text-2xl font-bold mt-1">1,250</h3>
+            <div class="stats-grid">
+                <!-- Card 1: EcoPoints -->
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="stat-header">
+                        <div class="stat-info">
+                            <p class="stat-label">EcoPoints</p>
+                            <h3 id="totalPoints" class="stat-value">1,250</h3>
                         </div>
-                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-                            <i data-feather="star" class="text-blue-600"></i>
-                        </div>
-                    </div>
-                    <div class="mt-4">
-                        <div class="flex items-center justify-between text-sm">
-                            <span>Weekly Target: 500</span>
-                            <span>250%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
-                            <div class="bg-blue-600 h-2 rounded-full" style="width: 100%"></div>
+                        <div class="stat-icon blue">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"></polygon>
+                            </svg>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Card 2 -->
-                <div class="bg-white rounded-xl shadow-sm p-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-500">Completed Lessons</p>
-                            <h3 class="text-2xl font-bold mt-1">12</h3>
+                    <div class="stat-progress">
+                        <div class="progress-info">
+                            <span class="progress-label">Weekly Target: 500</span>
+                            <span class="progress-percentage">250%</span>
                         </div>
-                        <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
-                            <i data-feather="book" class="text-green-600"></i>
-                        </div>
-                    </div>
-                    <div class="mt-4">
-                        <div class="flex items-center justify-between text-sm">
-                            <span>This Month: 5</span>
-                            <span>+25%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
-                            <div class="bg-green-600 h-2 rounded-full" style="width: 75%"></div>
+                        <div class="progress-bar">
+                            <div class="progress-fill blue" style="width: 100%"></div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Card 3 -->
-                <div class="bg-white rounded-xl shadow-sm p-6" data-aos="fade-up" data-aos-delay="300">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-500">Active Challenges</p>
-                            <h3 class="text-2xl font-bold mt-1">3</h3>
+                <!-- Card 2: Completed Lessons -->
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="stat-header">
+                        <div class="stat-info">
+                            <p class="stat-label">Completed Lessons</p>
+                            <h3 id="completedLessons" class="stat-value">12</h3>
                         </div>
-                        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
-                            <i data-feather="award" class="text-purple-600"></i>
+                        <div class="stat-icon green">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
                         </div>
                     </div>
-                    <div class="mt-4">
-                        <div class="flex items-center justify-between text-sm">
-                            <span>Completed: 8</span>
-                            <span>+60%</span>
+                    <div class="stat-progress">
+                        <div class="progress-info">
+                            <span class="progress-label">This Month: 5</span>
+                            <span class="progress-percentage">+25%</span>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
-                            <div class="bg-purple-600 h-2 rounded-full" style="width: 60%"></div>
+                        <div class="progress-bar">
+                            <div class="progress-fill green" style="width: 75%"></div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Card 4 -->
-                <div class="bg-white rounded-xl shadow-sm p-6" data-aos="fade-up" data-aos-delay="400">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-500">School Rank</p>
-                            <h3 class="text-2xl font-bold mt-1">#5</h3>
+                <!-- Card 3: Active Challenges -->
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="stat-header">
+                        <div class="stat-info">
+                            <p class="stat-label">Active Challenges</p>
+                            <h3 id="activeChallenges" class="stat-value">3</h3>
                         </div>
-                        <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center">
-                            <i data-feather="trending-up" class="text-yellow-600"></i>
+                        <div class="stat-icon purple">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="8" r="7"></circle>
+                                <polyline points="8.21,13.89 7,23 12,20 17,23 15.79,13.88"></polyline>
+                            </svg>
                         </div>
                     </div>
-                    <div class="mt-4">
-                        <div class="flex items-center justify-between text-sm">
-                            <span>Total Schools: 42</span>
-                            <span>Top 12%</span>
+                    <div class="stat-progress">
+                        <div class="progress-info">
+                            <span class="progress-label">Completed: 8</span>
+                            <span class="progress-percentage">+60%</span>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
-                            <div class="bg-yellow-600 h-2 rounded-full" style="width: 88%"></div>
+                        <div class="progress-bar">
+                            <div class="progress-fill purple" style="width: 60%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 4: School Rank -->
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="stat-header">
+                        <div class="stat-info">
+                            <p class="stat-label">School Rank</p>
+                            <h3 id="schoolRank" class="stat-value">#5</h3>
+                        </div>
+                        <div class="stat-icon yellow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-progress">
+                        <div class="progress-info">
+                            <span class="progress-label">Total Schools: 42</span>
+                            <span class="progress-percentage">Top 12%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill yellow" style="width: 88%"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Main Content Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="content-grid">
                 <!-- Left Column -->
-                <div class="lg:col-span-2 space-y-6">
+                <div class="left-column">
                     <!-- Current Challenge -->
-                    <div class="bg-white rounded-xl shadow-sm overflow-hidden" data-aos="fade-up">
-                        <div class="p-6 border-b">
-                            <h3 class="text-lg font-semibold">Current Challenge</h3>
+                    <div class="challenge-card" data-aos="fade-up">
+                        <div class="card-header">
+                            <h3 class="card-title">Current Challenge</h3>
                         </div>
-                        <div class="p-6">
-                            <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
-                                <div class="w-full md:w-1/3">
-                                    <div class="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg overflow-hidden">
-                                        <img src="http://static.photos/nature/640x360/5" alt="Challenge" class="w-full h-full object-cover">
+                        <div class="challenge-content">
+                            <div class="challenge-image">
+                                <img src="https://images.pexels.com/photos/3735747/pexels-photo-3735747.jpeg?w=640&h=360&fit=crop" alt="Challenge" class="challenge-img">
+                            </div>
+                            <div class="challenge-info">
+                                <h4 class="challenge-title">Waste Segregation Drive</h4>
+                                <p class="challenge-description">Learn how to properly segregate waste and implement it in your school or home for one week.</p>
+                                <div class="challenge-tags">
+                                    <span class="tag blue">+150 EcoPoints</span>
+                                    <span class="tag green">Sustainability</span>
+                                    <span class="tag purple">7 days</span>
+                                </div>
+                                <div class="challenge-progress">
+                                    <div class="progress-bar">
+                                        <div id="challengeProgress" class="progress-fill green" style="width: 40%"></div>
+                                    </div>
+                                    <div class="progress-details">
+                                        <span class="days-remaining">3 days remaining</span>
+                                        <span class="tasks-completed">2/5 tasks completed</span>
                                     </div>
                                 </div>
-                                <div class="flex-1">
-                                    <h4 class="text-xl font-bold mb-2">Waste Segregation Drive</h4>
-                                    <p class="text-gray-600 mb-4">Learn how to properly segregate waste and implement it in your school or home for one week.</p>
-                                    <div class="flex flex-wrap gap-2 mb-4">
-                                        <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">+150 EcoPoints</span>
-                                        <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">Sustainability</span>
-                                        <span class="px-3 py-1 bg-purple-100 text-purple-800 text-xs font-medium rounded-full">7 days</span>
-                                    </div>
-                                    <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
-                                        <div class="bg-green-600 h-2 rounded-full" style="width: 40%"></div>
-                                    </div>
-                                    <div class="flex justify-between text-sm text-gray-500 mb-4">
-                                        <span>3 days remaining</span>
-                                        <span>2/5 tasks completed</span>
-                                    </div>
-                                    <button class="gradient-bg text-white px-6 py-2 rounded-lg font-medium hover:opacity-90 transition">
-                                        Continue Challenge
-                                    </button>
-                                </div>
+                                <button id="continueChallenge" class="continue-btn">
+                                    Continue Challenge
+                                </button>
                             </div>
                         </div>
                     </div>
 
                     <!-- Recommended Lessons -->
-                    <div class="bg-white rounded-xl shadow-sm overflow-hidden" data-aos="fade-up" data-aos-delay="100">
-                        <div class="p-6 border-b flex justify-between items-center">
-                            <h3 class="text-lg font-semibold">Recommended Lessons</h3>
-                            <a href="#" class="text-sm text-blue-600 hover:text-blue-800">View All</a>
+                    <div class="lessons-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="card-header">
+                            <h3 class="card-title">Recommended Lessons</h3>
+                            <a href="#" class="view-all-link">View All</a>
                         </div>
-                        <div class="divide-y">
-                            <!-- Lesson 1 -->
-                            <div class="p-6 hover:bg-gray-50 transition cursor-pointer">
-                                <div class="flex items-start gap-4">
-                                    <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <i data-feather="droplet" class="text-blue-600"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold mb-1">Water Conservation</h4>
-                                        <p class="text-gray-600 text-sm mb-2">Learn about water scarcity and practical ways to conserve water in daily life.</p>
-                                        <div class="flex items-center text-sm text-gray-500">
-                                            <i data-feather="clock" class="w-4 h-4 mr-1"></i>
-                                            <span class="mr-4">15 min</span>
-                                            <i data-feather="bar-chart-2" class="w-4 h-4 mr-1"></i>
-                                            <span>Intermediate</span>
-                                        </div>
-                                    </div>
-                                    <button class="ml-auto px-4 py-1 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg text-sm font-medium transition">
-                                        Start
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <!-- Lesson 2 -->
-                            <div class="p-6 hover:bg-gray-50 transition cursor-pointer">
-                                <div class="flex items-start gap-4">
-                                    <div class="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <i data-feather="wind" class="text-green-600"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold mb-1">Renewable Energy</h4>
-                                        <p class="text-gray-600 text-sm mb-2">Explore different types of renewable energy sources and their importance.</p>
-                                        <div class="flex items-center text-sm text-gray-500">
-                                            <i data-feather="clock" class="w-4 h-4 mr-1"></i>
-                                            <span class="mr-4">20 min</span>
-                                            <i data-feather="bar-chart-2" class="w-4 h-4 mr-1"></i>
-                                            <span>Beginner</span>
-                                        </div>
-                                    </div>
-                                    <button class="ml-auto px-4 py-1 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg text-sm font-medium transition">
-                                        Start
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <!-- Lesson 3 -->
-                            <div class="p-6 hover:bg-gray-50 transition cursor-pointer">
-                                <div class="flex items-start gap-4">
-                                    <div class="w-16 h-16 bg-yellow-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <i data-feather="shopping-bag" class="text-yellow-600"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold mb-1">Sustainable Shopping</h4>
-                                        <p class="text-gray-600 text-sm mb-2">How to make environmentally friendly choices when shopping for daily needs.</p>
-                                        <div class="flex items-center text-sm text-gray-500">
-                                            <i data-feather="clock" class="w-4 h-4 mr-1"></i>
-                                            <span class="mr-4">10 min</span>
-                                            <i data-feather="bar-chart-2" class="w-4 h-4 mr-1"></i>
-                                            <span>Beginner</span>
-                                        </div>
-                                    </div>
-                                    <button class="ml-auto px-4 py-1 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg text-sm font-medium transition">
-                                        Start
-                                    </button>
-                                </div>
-                            </div>
+                        <div id="lessonsList" class="lessons-list">
+                            <!-- Lessons will be populated by JS -->
                         </div>
                     </div>
                 </div>
 
                 <!-- Right Column -->
-                <div class="space-y-6">
-                    <!-- Progress -->
-                    <div class="bg-white rounded-xl shadow-sm p-6" data-aos="fade-up" data-aos-delay="200">
-                        <h3 class="text-lg font-semibold mb-4">Your Progress</h3>
-                        <div class="flex justify-center mb-6">
-                            <div class="relative w-40 h-40">
-                                <svg class="w-full h-full" viewBox="0 0 100 100">
-                                    <circle class="text-gray-200" stroke-width="8" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" />
-                                    <circle class="text-green-500 progress-ring__circle" stroke-width="8" stroke-linecap="round" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" stroke-dasharray="251.2" stroke-dashoffset="calc(251.2 - (251.2 * 65) / 100)" />
+                <div class="right-column">
+                    <!-- Progress Circle -->
+                    <div class="progress-card" data-aos="fade-up" data-aos-delay="200">
+                        <h3 class="card-title">Your Progress</h3>
+                        <div class="progress-circle-container">
+                            <div class="progress-circle">
+                                <svg class="progress-svg" viewBox="0 0 100 100">
+                                    <circle class="progress-bg" cx="50" cy="50" r="40"></circle>
+                                    <circle id="progressCircle" class="progress-ring" cx="50" cy="50" r="40"></circle>
                                 </svg>
-                                <div class="absolute inset-0 flex items-center justify-center flex-col">
-                                    <span class="text-2xl font-bold">65%</span>
-                                    <span class="text-xs text-gray-500">Monthly Goal</span>
+                                <div class="progress-text">
+                                    <span id="progressPercentage" class="progress-value">65%</span>
+                                    <span class="progress-label">Monthly Goal</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm font-medium text-gray-600">Lessons Completed</span>
-                                <span class="text-sm font-semibold">12/20</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-blue-600 h-2 rounded-full" style="width: 60%"></div>
-                            </div>
-                            
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm font-medium text-gray-600">Challenges Completed</span>
-                                <span class="text-sm font-semibold">8/12</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-purple-600 h-2 rounded-full" style="width: 66%"></div>
-                            </div>
-                            
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm font-medium text-gray-600">Quizzes Passed</span>
-                                <span class="text-sm font-semibold">7/10</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-yellow-600 h-2 rounded-full" style="width: 70%"></div>
-                            </div>
+                        <div id="progressDetails" class="progress-details-list">
+                            <!-- Progress details will be populated by JS -->
                         </div>
                     </div>
 
                     <!-- Recent Badges -->
-                    <div class="bg-white rounded-xl shadow-sm p-6" data-aos="fade-up" data-aos-delay="300">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-semibold">Recent Badges</h3>
-                            <a href="#" class="text-sm text-blue-600 hover:text-blue-800">View All</a>
+                    <div class="badges-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="card-header">
+                            <h3 class="card-title">Recent Badges</h3>
+                            <a href="#" class="view-all-link">View All</a>
                         </div>
-                        <div class="grid grid-cols-3 gap-4">
-                            <div class="flex flex-col items-center">
-                                <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-2">
-                                    <i data-feather="award" class="text-yellow-600"></i>
-                                </div>
-                                <span class="text-xs font-medium text-center">Eco Warrior</span>
-                            </div>
-                            <div class="flex flex-col items-center">
-                                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-2">
-                                    <i data-feather="zap" class="text-green-600"></i>
-                                </div>
-                                <span class="text-xs font-medium text-center">Energy Saver</span>
-                            </div>
-                            <div class="flex flex-col items-center">
-                                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-2">
-                                    <i data-feather="droplet" class="text-blue-600"></i>
-                                </div>
-                                <span class="text-xs font-medium text-center">Water Guardian</span>
-                            </div>
-                            <div class="flex flex-col items-center">
-                                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-2">
-                                    <i data-feather="repeat" class="text-purple-600"></i>
-                                </div>
-                                <span class="text-xs font-medium text-center">Recycler</span>
-                            </div>
-                            <div class="flex flex-col items-center">
-                                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-2">
-                                    <i data-feather="tree" class="text-red-600"></i>
-                                </div>
-                                <span class="text-xs font-medium text-center">Tree Hugger</span>
-                            </div>
-                            <div class="flex flex-col items-center">
-                                <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-2">
-                                    <i data-feather="sun" class="text-indigo-600"></i>
-                                </div>
-                                <span class="text-xs font-medium text-center">Solar Champion</span>
-                            </div>
+                        <div id="badgesGrid" class="badges-grid">
+                            <!-- Badges will be populated by JS -->
                         </div>
                     </div>
 
                     <!-- School Leaderboard -->
-                    <div class="bg-white rounded-xl shadow-sm p-6" data-aos="fade-up" data-aos-delay="400">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-semibold">School Leaderboard</h3>
-                            <a href="#" class="text-sm text-blue-600 hover:text-blue-800">View All</a>
+                    <div class="leaderboard-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="card-header">
+                            <h3 class="card-title">School Leaderboard</h3>
+                            <a href="#" class="view-all-link">View All</a>
                         </div>
-                        <div class="space-y-4">
-                            <!-- School 1 -->
-                            <div class="flex items-center">
-                                <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                                    <span class="text-yellow-800 font-bold text-sm">1</span>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-medium truncate">Green Valley Public School</p>
-                                    <p class="text-xs text-gray-500">5,200 EcoPoints</p>
-                                </div>
-                                <div class="w-8 h-8 rounded-full overflow-hidden">
-                                    <img src="http://static.photos/education/200x200/1" alt="School" class="w-full h-full object-cover">
-                                </div>
-                            </div>
-                            
-                            <!-- School 2 -->
-                            <div class="flex items-center">
-                                <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                                    <span class="text-gray-800 font-bold text-sm">2</span>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-medium truncate">Sunshine International</p>
-                                    <p class="text-xs text-gray-500">4,850 EcoPoints</p>
-                                </div>
-                                <div class="w-8 h-8 rounded-full overflow-hidden">
-                                    <img src="http://static.photos/education/200x200/2" alt="School" class="w-full h-full object-cover">
-                                </div>
-                            </div>
-                            
-                            <!-- School 3 -->
-                            <div class="flex items-center">
-                                <div class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                                    <span class="text-amber-800 font-bold text-sm">3</span>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-medium truncate">Earth Guardians Academy</p>
-                                    <p class="text-xs text-gray-500">4,600 EcoPoints</p>
-                                </div>
-                                <div class="w-8 h-8 rounded-full overflow-hidden">
-                                    <img src="http://static.photos/education/200x200/3" alt="School" class="w-full h-full object-cover">
-                                </div>
-                            </div>
-                            
-                            <!-- School 4 -->
-                            <div class="flex items-center">
-                                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                                    <span class="text-gray-800 font-bold text-sm">4</span>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-medium truncate">Nature's Wisdom School</p>
-                                    <p class="text-xs text-gray-500">4,200 EcoPoints</p>
-                                </div>
-                                <div class="w-8 h-8 rounded-full overflow-hidden">
-                                    <img src="http://static.photos/education/200x200/4" alt="School" class="w-full h-full object-cover">
-                                </div>
-                            </div>
-                            
-                            <!-- School 5 (Your School) -->
-                            <div class="flex items-center bg-blue-50 p-2 rounded-lg">
-                                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                                    <span class="text-blue-800 font-bold text-sm">5</span>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-medium truncate">Delhi Public School</p>
-                                    <p class="text-xs text-gray-500">3,750 EcoPoints</p>
-                                </div>
-                                <div class="w-8 h-8 rounded-full overflow-hidden">
-                                    <img src="http://static.photos/education/200x200/5" alt="School" class="w-full h-full object-cover">
-                                </div>
-                            </div>
+                        <div id="leaderboardList" class="leaderboard-list">
+                            <!-- Leaderboard will be populated by JS -->
                         </div>
                     </div>
                 </div>
@@ -520,29 +1692,1641 @@
         </main>
     </div>
 
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+        // Application State
+class EcoQuestApp {
+    constructor() {
+        this.state = {
+            user: {
+                name: 'Kamran Alvi',
+                school: 'Delhi Public School',
+                class: 'Class 9',
+                avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?w=200&h=200&fit=crop&crop=faces'
+            },
+            stats: {
+                totalPoints: 1250,
+                weeklyPoints: 350,
+                completedLessons: 12,
+                activeChallenges: 3,
+                schoolRank: 5
+            },
+            progress: {
+                monthlyGoalPercentage: 65,
+                lessons: { completed: 12, total: 20 },
+                challenges: { completed: 8, total: 12 },
+                quizzes: { completed: 7, total: 10 }
+            },
+            currentChallenge: {
+                title: 'Waste Segregation Drive',
+                description: 'Learn how to properly segregate waste and implement it in your school or home for one week.',
+                progress: 40,
+                daysRemaining: 3,
+                tasksCompleted: 2,
+                totalTasks: 5,
+                image: 'https://images.pexels.com/photos/3735747/pexels-photo-3735747.jpeg?w=640&h=360&fit=crop'
+            },
+            notifications: [
+                {
+                    id: 1,
+                    title: 'New Challenge Available',
+                    message: 'Check out the new Water Conservation Challenge',
+                    time: '2 minutes ago',
+                    unread: true
+                },
+                {
+                    id: 2,
+                    title: 'Quiz Completed',
+                    message: 'You scored 85% on Renewable Energy quiz',
+                    time: '1 hour ago',
+                    unread: true
+                },
+                {
+                    id: 3,
+                    title: 'Badge Earned',
+                    message: 'Congratulations! You earned the Eco Warrior badge',
+                    time: '2 hours ago',
+                    unread: false
+                }
+            ],
+            lessons: [
+                {
+                    id: 1,
+                    title: 'Water Conservation',
+                    description: 'Learn about water scarcity and practical ways to conserve water in daily life.',
+                    duration: '15 min',
+                    level: 'Intermediate',
+                    icon: 'droplet',
+                    color: 'blue'
+                },
+                {
+                    id: 2,
+                    title: 'Renewable Energy',
+                    description: 'Explore different types of renewable energy sources and their importance.',
+                    duration: '20 min',
+                    level: 'Beginner',
+                    icon: 'wind',
+                    color: 'green'
+                },
+                {
+                    id: 3,
+                    title: 'Sustainable Shopping',
+                    description: 'How to make environmentally friendly choices when shopping for daily needs.',
+                    duration: '10 min',
+                    level: 'Beginner',
+                    icon: 'shopping-bag',
+                    color: 'yellow'
+                }
+            ],
+            badges: [
+                { name: 'Eco Warrior', icon: 'award', color: 'yellow' },
+                { name: 'Energy Saver', icon: 'zap', color: 'green' },
+                { name: 'Water Guardian', icon: 'droplet', color: 'blue' },
+                { name: 'Recycler', icon: 'repeat', color: 'purple' },
+                { name: 'Tree Hugger', icon: 'tree', color: 'red' },
+                { name: 'Solar Champion', icon: 'sun', color: 'indigo' }
+            ],
+            leaderboard: [
+                {
+                    rank: 1,
+                    name: 'Green Valley Public School',
+                    points: '5,200 EcoPoints',
+                    avatar: 'https://images.pexels.com/photos/256490/pexels-photo-256490.jpeg?w=200&h=200&fit=crop'
+                },
+                {
+                    rank: 2,
+                    name: 'Sunshine International',
+                    points: '4,850 EcoPoints',
+                    avatar: 'https://images.pexels.com/photos/289740/pexels-photo-289740.jpeg?w=200&h=200&fit=crop'
+                },
+                {
+                    rank: 3,
+                    name: 'Earth Guardians Academy',
+                    points: '4,600 EcoPoints',
+                    avatar: 'https://images.pexels.com/photos/159844/cellular-education-classroom-159844.jpeg?w=200&h=200&fit=crop'
+                },
+                {
+                    rank: 4,
+                    name: "Nature's Wisdom School",
+                    points: '4,200 EcoPoints',
+                    avatar: 'https://images.pexels.com/photos/207691/pexels-photo-207691.jpeg?w=200&h=200&fit=crop'
+                },
+                {
+                    rank: 5,
+                    name: 'Delhi Public School',
+                    points: '3,750 EcoPoints',
+                    avatar: 'https://images.pexels.com/photos/289737/pexels-photo-289737.jpeg?w=200&h=200&fit=crop',
+                    current: true
+                }
+            ]
+        };
+
+        this.currentSection = 'dashboard';
+        this.init();
+    }
+
+    init() {
+        this.setupEventListeners();
+        this.renderContent();
+        this.initializeAnimations();
+        this.loadFromStorage();
+    }
+
+    setupEventListeners() {
         // Mobile menu toggle
-        document.getElementById('mobileMenuButton').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('active');
-            feather.replace();
+        const mobileMenuBtn = document.getElementById('mobileMenuButton');
+        const sidebar = document.getElementById('sidebar');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            this.toggleMobileMenuIcon();
         });
 
-        // Initialize animations and icons
-        document.addEventListener('DOMContentLoaded', function() {
-            AOS.init({
-                duration: 800,
-                easing: 'ease-in-out',
-                once: true
+        // Sidebar navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const section = item.dataset.section;
+                this.switchSection(section);
+                
+                // Close mobile menu if open
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                    this.toggleMobileMenuIcon();
+                }
             });
-            feather.replace();
-            
-            // Calculate progress ring dash offset
-            const circle = document.querySelector('.progress-ring__circle');
-            const radius = circle.r.baseVal.value;
-            const circumference = radius * 2 * Math.PI;
-            circle.style.strokeDasharray = circumference;
-            circle.style.strokeDashoffset = circumference - (65 / 100 * circumference);
         });
+
+        // Notifications dropdown
+        const notificationsBtn = document.getElementById('notificationsButton');
+        const notificationsDropdown = document.getElementById('notificationsDropdown');
+        
+        notificationsBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            notificationsDropdown.classList.toggle('hidden');
+            document.getElementById('profileDropdown').classList.add('hidden');
+        });
+
+        // Profile dropdown
+        const profileBtn = document.getElementById('profileButton');
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        profileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+            notificationsDropdown.classList.add('hidden');
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', () => {
+            notificationsDropdown.classList.add('hidden');
+            profileDropdown.classList.add('hidden');
+        });
+
+        // Mark all notifications as read
+        document.getElementById('markAllRead').addEventListener('click', () => {
+            this.markAllNotificationsRead();
+        });
+
+        // Challenge buttons
+        document.getElementById('todaysChallengeBtn').addEventListener('click', () => {
+            this.showToast('Challenge Started!', 'You have started today\'s challenge. Good luck!', 'success');
+        });
+
+        document.getElementById('continueChallenge').addEventListener('click', () => {
+            this.continueCurrentChallenge();
+        });
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            this.logout();
+        });
+
+        // Window resize handler
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('active');
+                this.resetMobileMenuIcon();
+            }
+        });
+    }
+
+    toggleMobileMenuIcon() {
+        const menuIcon = document.querySelector('.menu-icon');
+        const closeIcon = document.querySelector('.close-icon');
+        
+        menuIcon.classList.toggle('hidden');
+        closeIcon.classList.toggle('hidden');
+    }
+
+    resetMobileMenuIcon() {
+        const menuIcon = document.querySelector('.menu-icon');
+        const closeIcon = document.querySelector('.close-icon');
+        
+        menuIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+    }
+
+    switchSection(section) {
+        this.currentSection = section;
+        
+        // Update active nav item
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        document.querySelector(`[data-section="${section}"]`).classList.add('active');
+        
+        // Update page title
+        const titles = {
+            dashboard: 'Dashboard',
+            lessons: 'Lessons',
+            quizzes: 'Quizzes',
+            challenges: 'Challenges',
+            community: 'Community',
+            progress: 'Progress',
+            settings: 'Settings'
+        };
+        
+        document.getElementById('pageTitle').textContent = titles[section] || 'Dashboard';
+        
+        // Show appropriate content
+        this.renderSectionContent(section);
+    }
+
+    renderSectionContent(section) {
+        const mainContent = document.getElementById('mainContent');
+        
+        if (section === 'dashboard') {
+            this.renderDashboard();
+        } else {
+            // For other sections, show a placeholder
+            mainContent.innerHTML = `
+                <div class="section-placeholder" style="text-align: center; padding: 4rem 2rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;">🚧</div>
+                    <h2 style="font-size: 2rem; margin-bottom: 1rem; color: var(--gray-600);">${section.charAt(0).toUpperCase() + section.slice(1)}</h2>
+                    <p style="color: var(--gray-500);">This section is under development.</p>
+                    <button onclick="ecoQuest.switchSection('dashboard')" style="margin-top: 2rem; padding: 12px 24px; background: var(--primary-color); color: white; border: none; border-radius: 8px; cursor: pointer;">
+                        Back to Dashboard
+                    </button>
+                </div>
+            `;
+        }
+    }
+
+    renderDashboard() {
+        const mainContent = document.getElementById('mainContent');
+        mainContent.innerHTML = `
+            <!-- Welcome Banner -->
+            <div class="welcome-banner" data-aos="fade-up">
+                <div class="banner-content">
+                    <div class="banner-text">
+                        <h2 class="banner-title">Welcome back, ${this.state.user.name}!</h2>
+                        <p class="banner-description">You've earned <span id="weeklyPoints">${this.state.stats.weeklyPoints}</span> EcoPoints this week. Keep up the good work and complete today's challenge to earn more!</p>
+                    </div>
+                    <button id="todaysChallengeBtn" class="challenge-btn">
+                        Today's Challenge
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                ${this.renderStatsCards()}
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="content-grid">
+                <!-- Left Column -->
+                <div class="left-column">
+                    ${this.renderCurrentChallenge()}
+                    ${this.renderRecommendedLessons()}
+                </div>
+
+                <!-- Right Column -->
+                <div class="right-column">
+                    ${this.renderProgressCard()}
+                    ${this.renderBadgesCard()}
+                    ${this.renderLeaderboardCard()}
+                </div>
+            </div>
+        `;
+
+        // Re-attach event listeners for dynamic content
+        this.attachDynamicEventListeners();
+        
+        // Update progress circle
+        this.updateProgressCircle();
+    }
+
+    renderStatsCards() {
+        const stats = this.state.stats;
+        return `
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-header">
+                    <div class="stat-info">
+                        <p class="stat-label">EcoPoints</p>
+                        <h3 class="stat-value">${stats.totalPoints.toLocaleString()}</h3>
+                    </div>
+                    <div class="stat-icon blue">
+                        ${this.getIcon('star')}
+                    </div>
+                </div>
+                <div class="stat-progress">
+                    <div class="progress-info">
+                        <span class="progress-label">Weekly Target: 500</span>
+                        <span class="progress-percentage">${Math.round((stats.weeklyPoints / 500) * 100)}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill blue" style="width: ${Math.min((stats.weeklyPoints / 500) * 100, 100)}%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-header">
+                    <div class="stat-info">
+                        <p class="stat-label">Completed Lessons</p>
+                        <h3 class="stat-value">${stats.completedLessons}</h3>
+                    </div>
+                    <div class="stat-icon green">
+                        ${this.getIcon('book-open')}
+                    </div>
+                </div>
+                <div class="stat-progress">
+                    <div class="progress-info">
+                        <span class="progress-label">This Month: 5</span>
+                        <span class="progress-percentage">+25%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill green" style="width: 75%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-header">
+                    <div class="stat-info">
+                        <p class="stat-label">Active Challenges</p>
+                        <h3 class="stat-value">${stats.activeChallenges}</h3>
+                    </div>
+                    <div class="stat-icon purple">
+                        ${this.getIcon('award')}
+                    </div>
+                </div>
+                <div class="stat-progress">
+                    <div class="progress-info">
+                        <span class="progress-label">Completed: 8</span>
+                        <span class="progress-percentage">+60%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill purple" style="width: 60%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-header">
+                    <div class="stat-info">
+                        <p class="stat-label">School Rank</p>
+                        <h3 class="stat-value">#${stats.schoolRank}</h3>
+                    </div>
+                    <div class="stat-icon yellow">
+                        ${this.getIcon('trending-up')}
+                    </div>
+                </div>
+                <div class="stat-progress">
+                    <div class="progress-info">
+                        <span class="progress-label">Total Schools: 42</span>
+                        <span class="progress-percentage">Top 12%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill yellow" style="width: 88%"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    renderCurrentChallenge() {
+        const challenge = this.state.currentChallenge;
+        return `
+            <div class="challenge-card" data-aos="fade-up">
+                <div class="card-header">
+                    <h3 class="card-title">Current Challenge</h3>
+                </div>
+                <div class="challenge-content">
+                    <div class="challenge-image">
+                        <img src="${challenge.image}" alt="Challenge" class="challenge-img">
+                    </div>
+                    <div class="challenge-info">
+                        <h4 class="challenge-title">${challenge.title}</h4>
+                        <p class="challenge-description">${challenge.description}</p>
+                        <div class="challenge-tags">
+                            <span class="tag blue">+150 EcoPoints</span>
+                            <span class="tag green">Sustainability</span>
+                            <span class="tag purple">7 days</span>
+                        </div>
+                        <div class="challenge-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill green" style="width: ${challenge.progress}%"></div>
+                            </div>
+                            <div class="progress-details">
+                                <span class="days-remaining">${challenge.daysRemaining} days remaining</span>
+                                <span class="tasks-completed">${challenge.tasksCompleted}/${challenge.totalTasks} tasks completed</span>
+                            </div>
+                        </div>
+                        <button id="continueChallenge" class="continue-btn">
+                            Continue Challenge
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    renderRecommendedLessons() {
+        return `
+            <div class="lessons-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="card-header">
+                    <h3 class="card-title">Recommended Lessons</h3>
+                    <a href="#" class="view-all-link">View All</a>
+                </div>
+                <div class="lessons-list">
+                    ${this.state.lessons.map(lesson => `
+                        <div class="lesson-item" data-lesson-id="${lesson.id}">
+                            <div class="lesson-content">
+                                <div class="lesson-icon ${lesson.color}">
+                                    ${this.getIcon(lesson.icon)}
+                                </div>
+                                <div class="lesson-info">
+                                    <h4 class="lesson-title">${lesson.title}</h4>
+                                    <p class="lesson-description">${lesson.description}</p>
+                                    <div class="lesson-meta">
+                                        <div class="lesson-meta-item">
+                                            ${this.getIcon('clock')}
+                                            <span>${lesson.duration}</span>
+                                        </div>
+                                        <div class="lesson-meta-item">
+                                            ${this.getIcon('bar-chart-2')}
+                                            <span>${lesson.level}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="lesson-start-btn" data-lesson-id="${lesson.id}">
+                                    Start
+                                </button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
+
+    renderProgressCard() {
+        const progress = this.state.progress;
+        return `
+            <div class="progress-card" data-aos="fade-up" data-aos-delay="200">
+                <h3 class="card-title">Your Progress</h3>
+                <div class="progress-circle-container">
+                    <div class="progress-circle">
+                        <svg class="progress-svg" viewBox="0 0 100 100">
+                            <circle class="progress-bg" cx="50" cy="50" r="40"></circle>
+                            <circle id="progressCircle" class="progress-ring" cx="50" cy="50" r="40"></circle>
+                        </svg>
+                        <div class="progress-text">
+                            <span class="progress-value">${progress.monthlyGoalPercentage}%</span>
+                            <span class="progress-label">Monthly Goal</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-details-list">
+                    <div class="progress-detail">
+                        <div class="progress-detail-header">
+                            <span class="progress-detail-label">Lessons Completed</span>
+                            <span class="progress-detail-value">${progress.lessons.completed}/${progress.lessons.total}</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill blue" style="width: ${(progress.lessons.completed / progress.lessons.total) * 100}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-detail">
+                        <div class="progress-detail-header">
+                            <span class="progress-detail-label">Challenges Completed</span>
+                            <span class="progress-detail-value">${progress.challenges.completed}/${progress.challenges.total}</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill purple" style="width: ${(progress.challenges.completed / progress.challenges.total) * 100}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-detail">
+                        <div class="progress-detail-header">
+                            <span class="progress-detail-label">Quizzes Passed</span>
+                            <span class="progress-detail-value">${progress.quizzes.completed}/${progress.quizzes.total}</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill yellow" style="width: ${(progress.quizzes.completed / progress.quizzes.total) * 100}%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    renderBadgesCard() {
+        return `
+            <div class="badges-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="card-header">
+                    <h3 class="card-title">Recent Badges</h3>
+                    <a href="#" class="view-all-link">View All</a>
+                </div>
+                <div class="badges-grid">
+                    ${this.state.badges.map(badge => `
+                        <div class="badge-item">
+                            <div class="badge-icon ${badge.color}">
+                                ${this.getIcon(badge.icon)}
+                            </div>
+                            <span class="badge-name">${badge.name}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
+
+    renderLeaderboardCard() {
+        return `
+            <div class="leaderboard-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="card-header">
+                    <h3 class="card-title">School Leaderboard</h3>
+                    <a href="#" class="view-all-link">View All</a>
+                </div>
+                <div class="leaderboard-list">
+                    ${this.state.leaderboard.map(school => `
+                        <div class="leaderboard-item ${school.current ? 'current' : ''}">
+                            <div class="rank-badge ${this.getRankBadgeClass(school.rank, school.current)}">
+                                ${school.rank}
+                            </div>
+                            <div class="school-info">
+                                <p class="school-name">${school.name}</p>
+                                <p class="school-points">${school.points}</p>
+                            </div>
+                            <div class="school-avatar">
+                                <img src="${school.avatar}" alt="School" class="school-img">
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
+
+    attachDynamicEventListeners() {
+        // Today's challenge button
+        const todaysChallengeBtn = document.getElementById('todaysChallengeBtn');
+        if (todaysChallengeBtn) {
+            todaysChallengeBtn.addEventListener('click', () => {
+                this.showToast('Challenge Started!', 'You have started today\'s challenge. Good luck!', 'success');
+            });
+        }
+
+        // Continue challenge button
+        const continueChallenge = document.getElementById('continueChallenge');
+        if (continueChallenge) {
+            continueChallenge.addEventListener('click', () => {
+                this.continueCurrentChallenge();
+            });
+        }
+
+        // Lesson start buttons
+        document.querySelectorAll('.lesson-start-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const lessonId = btn.dataset.lessonId;
+                this.startLesson(lessonId);
+            });
+        });
+
+        // Lesson items
+        document.querySelectorAll('.lesson-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const lessonId = item.dataset.lessonId;
+                this.startLesson(lessonId);
+            });
+        });
+    }
+
+    renderNotifications() {
+        const notificationsList = document.getElementById('notificationsList');
+        if (!notificationsList) return;
+
+        notificationsList.innerHTML = this.state.notifications.map(notification => `
+            <div class="notification-item ${notification.unread ? 'unread' : ''}" data-notification-id="${notification.id}">
+                <div class="notification-title">${notification.title}</div>
+                <div class="notification-message">${notification.message}</div>
+                <div class="notification-time">${notification.time}</div>
+            </div>
+        `).join('');
+
+        // Update notification dot
+        const hasUnread = this.state.notifications.some(n => n.unread);
+        const notificationDot = document.getElementById('notificationDot');
+        if (notificationDot) {
+            notificationDot.style.display = hasUnread ? 'block' : 'none';
+        }
+
+        // Add click listeners to notifications
+        document.querySelectorAll('.notification-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const id = parseInt(item.dataset.notificationId);
+                this.markNotificationAsRead(id);
+            });
+        });
+    }
+
+    updateProgressCircle() {
+        const progressCircle = document.getElementById('progressCircle');
+        if (!progressCircle) return;
+
+        const radius = 40;
+        const circumference = 2 * Math.PI * radius;
+        const percentage = this.state.progress.monthlyGoalPercentage;
+        const offset = circumference - (percentage / 100) * circumference;
+
+        progressCircle.style.strokeDasharray = circumference;
+        progressCircle.style.strokeDashoffset = offset;
+    }
+
+    continueCurrentChallenge() {
+        // Simulate challenge progress
+        const currentProgress = this.state.currentChallenge.progress;
+        const newProgress = Math.min(currentProgress + 20, 100);
+        
+        this.state.currentChallenge.progress = newProgress;
+        this.state.currentChallenge.tasksCompleted = Math.min(
+            this.state.currentChallenge.tasksCompleted + 1,
+            this.state.currentChallenge.totalTasks
+        );
+
+        if (newProgress >= 100) {
+            this.state.stats.totalPoints += 150;
+            this.state.stats.weeklyPoints += 150;
+            this.showToast('Challenge Completed!', 'Congratulations! You earned 150 EcoPoints!', 'success');
+        } else {
+            this.showToast('Progress Updated!', 'Great job! Keep up the excellent work!', 'info');
+        }
+
+        this.renderDashboard();
+        this.saveToStorage();
+    }
+
+    startLesson(lessonId) {
+        const lesson = this.state.lessons.find(l => l.id == lessonId);
+        if (!lesson) return;
+
+        // Simulate lesson completion
+        this.state.stats.completedLessons += 1;
+        this.state.stats.totalPoints += 50;
+        this.state.stats.weeklyPoints += 50;
+        this.state.progress.lessons.completed += 1;
+
+        this.showToast('Lesson Completed!', `Great job completing "${lesson.title}"! You earned 50 EcoPoints!`, 'success');
+        this.renderDashboard();
+        this.saveToStorage();
+    }
+
+    markNotificationAsRead(id) {
+        const notification = this.state.notifications.find(n => n.id === id);
+        if (notification) {
+            notification.unread = false;
+            this.renderNotifications();
+        }
+    }
+
+    markAllNotificationsRead() {
+        this.state.notifications.forEach(n => n.unread = false);
+        this.renderNotifications();
+        this.showToast('All notifications marked as read', '', 'info');
+    }
+
+    logout() {
+        if (confirm('Are you sure you want to logout?')) {
+            this.showToast('Logged out', 'You have been successfully logged out.', 'info');
+            // In a real app, this would redirect to login page
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
+        }
+    }
+
+    showToast(title, message, type = 'info') {
+        const toastContainer = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        
+        toast.innerHTML = `
+            <div class="toast-title">${title}</div>
+            ${message ? `<div class="toast-message">${message}</div>` : ''}
+        `;
+
+        toastContainer.appendChild(toast);
+
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            toast.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => {
+                if (toastContainer.contains(toast)) {
+                    toastContainer.removeChild(toast);
+                }
+            }, 300);
+        }, 5000);
+    }
+
+    getRankBadgeClass(rank, current) {
+        if (current) return 'current';
+        if (rank === 1) return 'first';
+        if (rank === 2) return 'second';
+        if (rank === 3) return 'third';
+        return 'default';
+    }
+
+    getIcon(iconName) {
+        const icons = {
+            'star': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"></polygon></svg>',
+            'book-open': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>',
+            'award': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21,13.89 7,23 12,20 17,23 15.79,13.88"></polyline></svg>',
+            'trending-up': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,6 13.5,15.5 8.5,10.5 1,18"></polyline><polyline points="17,6 23,6 23,12"></polyline></svg>',
+            'droplet': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>',
+            'wind': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"></path><path d="M9.6 4.6A2 2 0 1 1 11 8H2"></path><path d="M12.6 19.4A2 2 0 1 0 14 16H2"></path></svg>',
+            'shopping-bag': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>',
+            'clock': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12,6 12,12 16,14"></polyline></svg>',
+            'bar-chart-2': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>',
+            'zap': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10 13,2"></polygon></svg>',
+            'repeat': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17,1 21,5 17,9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7,23 3,19 7,15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>',
+            'tree': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 10v.2A3 3 0 0 0 8.9 16v0H5v0h0A3.01 3.01 0 0 0 8 13.2a3 3 0 0 0-.17-1.75 3.01 3.01 0 0 0 2.17 1.75zm0 0V9a3 3 0 0 0-3-3v0a3 3 0 0 0 3-3v0a3 3 0 0 0 3 3v0a3 3 0 0 0-3 3v1z"></path><line x1="12" y1="20" x2="12" y2="16"></line></svg>',
+            'sun': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>'
+        };
+
+        return icons[iconName] || icons['star'];
+    }
+
+    renderContent() {
+        this.renderNotifications();
+        if (this.currentSection === 'dashboard') {
+            this.renderDashboard();
+        }
+    }
+
+    initializeAnimations() {
+        // Initialize AOS (Animate On Scroll)
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 50
+        });
+    }
+
+    saveToStorage() {
+        try {
+            localStorage.setItem('ecoquest-data', JSON.stringify(this.state));
+        } catch (error) {
+            console.error('Failed to save data to localStorage:', error);
+        }
+    }
+
+    loadFromStorage() {
+        try {
+            const savedData = localStorage.getItem('ecoquest-data');
+            if (savedData) {
+                const parsedData = JSON.parse(savedData);
+                this.state = { ...this.state, ...parsedData };
+                this.renderContent();
+            }
+        } catch (error) {
+            console.error('Failed to load data from localStorage:', error);
+        }
+    }
+}
+const quizzes = [
+    {
+        id: '1',
+        title: 'Water Conservation Fundamentals',
+        description: 'Learn about water scarcity, conservation techniques, and smart water management practices.',
+        category: 'Water Conservation',
+        difficulty: 'Beginner',
+        duration: 15,
+        points: 100,
+        image: 'https://images.pexels.com/photos/416528/pexels-photo-416528.jpeg?auto=compress&cs=tinysrgb&w=400',
+        questions: [
+            {
+                id: '1-1',
+                question: 'What percentage of Earth\'s water is freshwater?',
+                options: ['2.5%', '10%', '25%', '50%'],
+                correctAnswer: 0,
+                explanation: 'Only about 2.5% of Earth\'s water is freshwater, and most of that is frozen in glaciers and ice caps.',
+                points: 10
+            },
+            {
+                id: '1-2',
+                question: 'Which of these is the most water-efficient irrigation method?',
+                options: ['Flood irrigation', 'Sprinkler irrigation', 'Drip irrigation', 'Furrow irrigation'],
+                correctAnswer: 2,
+                explanation: 'Drip irrigation is the most efficient method, delivering water directly to plant roots with minimal waste.',
+                points: 10
+            },
+            {
+                id: '1-3',
+                question: 'How much water can a leaky faucet waste per day?',
+                options: ['1-5 liters', '10-15 liters', '20-30 liters', '50+ liters'],
+                correctAnswer: 3,
+                explanation: 'A single leaky faucet can waste over 50 liters of water per day, which adds up significantly over time.',
+                points: 10
+            },
+            {
+                id: '1-4',
+                question: 'What is rainwater harvesting?',
+                options: ['Collecting rainwater for irrigation', 'Preventing floods', 'Cloud seeding', 'Water purification'],
+                correctAnswer: 0,
+                explanation: 'Rainwater harvesting involves collecting and storing rainwater for various uses, reducing dependence on groundwater.',
+                points: 10
+            },
+            {
+                id: '1-5',
+                question: 'Which household activity uses the most water?',
+                options: ['Cooking', 'Washing clothes', 'Bathing/showering', 'Drinking'],
+                correctAnswer: 2,
+                explanation: 'Bathing and showering typically account for the largest portion of household water consumption.',
+                points: 10
+            }
+        ]
+    },
+    {
+        id: '2',
+        title: 'Renewable Energy Systems',
+        description: 'Explore solar, wind, and other renewable energy sources and their environmental impact.',
+        category: 'Renewable Energy',
+        difficulty: 'Intermediate',
+        duration: 20,
+        points: 150,
+        image: 'https://images.pexels.com/photos/356036/pexels-photo-356036.jpeg?auto=compress&cs=tinysrgb&w=400',
+        questions: [
+            {
+                id: '2-1',
+                question: 'Which renewable energy source generates the most electricity globally?',
+                options: ['Solar', 'Wind', 'Hydroelectric', 'Geothermal'],
+                correctAnswer: 2,
+                explanation: 'Hydroelectric power currently generates the most renewable electricity worldwide, followed by wind and solar.',
+                points: 15
+            },
+            {
+                id: '2-2',
+                question: 'What is the main advantage of solar panels?',
+                options: ['Low cost', 'No moving parts', 'High efficiency', 'Weather independent'],
+                correctAnswer: 1,
+                explanation: 'Solar panels have no moving parts, making them very reliable and requiring minimal maintenance.',
+                points: 15
+            },
+            {
+                id: '2-3',
+                question: 'Wind turbines work most efficiently when:',
+                options: ['Wind speed is very low', 'Wind speed is moderate and consistent', 'Wind speed is very high', 'Wind direction changes frequently'],
+                correctAnswer: 1,
+                explanation: 'Wind turbines are most efficient with moderate, consistent wind speeds of 15-25 mph.',
+                points: 15
+            },
+            {
+                id: '2-4',
+                question: 'What is a smart grid?',
+                options: ['A type of solar panel', 'An electricity network with digital technology', 'A wind farm layout', 'A hydroelectric dam'],
+                correctAnswer: 1,
+                explanation: 'A smart grid uses digital technology to improve reliability, efficiency, and sustainability of electricity distribution.',
+                points: 15
+            },
+            {
+                id: '2-5',
+                question: 'Which country leads in solar power capacity?',
+                options: ['USA', 'Germany', 'China', 'India'],
+                correctAnswer: 2,
+                explanation: 'China currently has the largest installed solar power capacity in the world.',
+                points: 15
+            }
+        ]
+    },
+    {
+        id: '3',
+        title: 'Waste Management & Recycling',
+        description: 'Understanding waste segregation, recycling processes, and circular economy principles.',
+        category: 'Waste Management',
+        difficulty: 'Beginner',
+        duration: 12,
+        points: 80,
+        image: 'https://images.pexels.com/photos/3850512/pexels-photo-3850512.jpeg?auto=compress&cs=tinysrgb&w=400',
+        questions: [
+            {
+                id: '3-1',
+                question: 'What are the 3 Rs of waste management?',
+                options: ['Read, Write, Remember', 'Reduce, Reuse, Recycle', 'Run, Rest, Repeat', 'Remove, Replace, Restore'],
+                correctAnswer: 1,
+                explanation: 'The 3 Rs - Reduce, Reuse, and Recycle - form the foundation of effective waste management.',
+                points: 8
+            },
+            {
+                id: '3-2',
+                question: 'Which waste should go in a green bin?',
+                options: ['Plastic bottles', 'Food scraps and organic waste', 'Paper and cardboard', 'Electronic waste'],
+                correctAnswer: 1,
+                explanation: 'Green bins are typically used for organic waste like food scraps, which can be composted.',
+                points: 8
+            },
+            {
+                id: '3-3',
+                question: 'How long does a plastic bottle take to decompose?',
+                options: ['5-10 years', '50-100 years', '450-500 years', '1000+ years'],
+                correctAnswer: 2,
+                explanation: 'Plastic bottles can take 450-500 years to completely decompose in the environment.',
+                points: 8
+            },
+            {
+                id: '3-4',
+                question: 'What is e-waste?',
+                options: ['Electronic waste', 'Expired food', 'Excess water', 'Empty containers'],
+                correctAnswer: 0,
+                explanation: 'E-waste refers to discarded electronic devices like computers, phones, and televisions.',
+                points: 8
+            },
+            {
+                id: '3-5',
+                question: 'Which material can be recycled indefinitely?',
+                options: ['Paper', 'Plastic', 'Glass', 'Rubber'],
+                correctAnswer: 2,
+                explanation: 'Glass can be recycled indefinitely without losing quality, making it highly sustainable.',
+                points: 8
+            }
+        ]
+    },
+    {
+        id: '4',
+        title: 'Climate Change Basics',
+        description: 'Understanding global warming, greenhouse gases, and climate action strategies.',
+        category: 'Climate Change',
+        difficulty: 'Intermediate',
+        duration: 18,
+        points: 120,
+        image: 'https://images.pexels.com/photos/60013/desert-drought-dehydrated-clay-soil-60013.jpeg?auto=compress&cs=tinysrgb&w=400',
+        questions: [
+            {
+                id: '4-1',
+                question: 'What is the main cause of current climate change?',
+                options: ['Solar variations', 'Volcanic activity', 'Human activities', 'Natural cycles'],
+                correctAnswer: 2,
+                explanation: 'Current climate change is primarily caused by human activities, especially burning fossil fuels.',
+                points: 12
+            },
+            {
+                id: '4-2',
+                question: 'Which gas contributes most to global warming?',
+                options: ['Methane', 'Carbon dioxide', 'Nitrous oxide', 'Ozone'],
+                correctAnswer: 1,
+                explanation: 'Carbon dioxide (CO2) is the most significant greenhouse gas contributing to global warming.',
+                points: 12
+            },
+            {
+                id: '4-3',
+                question: 'What is the Paris Agreement target for global temperature rise?',
+                options: ['Below 1°C', 'Below 1.5°C', 'Below 2°C', 'Below 3°C'],
+                correctAnswer: 1,
+                explanation: 'The Paris Agreement aims to limit global temperature rise to well below 2°C, preferably 1.5°C above pre-industrial levels.',
+                points: 12
+            },
+            {
+                id: '4-4',
+                question: 'What is carbon footprint?',
+                options: ['Size of coal deposits', 'Amount of CO2 emissions from activities', 'Number of trees planted', 'Area of forest cleared'],
+                correctAnswer: 1,
+                explanation: 'Carbon footprint measures the total amount of greenhouse gases produced by human activities.',
+                points: 12
+            },
+            {
+                id: '4-5',
+                question: 'Which sector produces the most greenhouse gas emissions?',
+                options: ['Transportation', 'Energy production', 'Agriculture', 'Industry'],
+                correctAnswer: 1,
+                explanation: 'Energy production (electricity and heat) is the largest source of global greenhouse gas emissions.',
+                points: 12
+            }
+        ]
+    },
+    {
+        id: '5',
+        title: 'Biodiversity & Ecosystems',
+        description: 'Explore the importance of biodiversity and ecosystem conservation strategies.',
+        category: 'Biodiversity',
+        difficulty: 'Advanced',
+        duration: 25,
+        points: 200,
+        image: 'https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg?auto=compress&cs=tinysrgb&w=400',
+        questions: [
+            {
+                id: '5-1',
+                question: 'What is biodiversity?',
+                options: ['Number of trees in a forest', 'Variety of life in all its forms', 'Size of animal populations', 'Amount of genetic variation'],
+                correctAnswer: 1,
+                explanation: 'Biodiversity refers to the variety of life in all its forms and at all levels of organization.',
+                points: 20
+            },
+            {
+                id: '5-2',
+                question: 'Which biome has the highest biodiversity?',
+                options: ['Tropical rainforest', 'Desert', 'Tundra', 'Grassland'],
+                correctAnswer: 0,
+                explanation: 'Tropical rainforests contain the highest biodiversity of any biome on Earth.',
+                points: 20
+            },
+            {
+                id: '5-3',
+                question: 'What is habitat fragmentation?',
+                options: ['Natural habitat creation', 'Breaking large habitats into smaller pieces', 'Migration of animals', 'Seasonal changes in habitat'],
+                correctAnswer: 1,
+                explanation: 'Habitat fragmentation is the breaking up of large, continuous habitats into smaller, isolated patches.',
+                points: 20
+            },
+            {
+                id: '5-4',
+                question: 'What is a keystone species?',
+                options: ['Most numerous species', 'Species with disproportionate impact on ecosystem', 'Largest species in ecosystem', 'First species to arrive'],
+                correctAnswer: 1,
+                explanation: 'A keystone species has a disproportionately large impact on its ecosystem relative to its abundance.',
+                points: 20
+            },
+            {
+                id: '5-5',
+                question: 'What is the main cause of species extinction today?',
+                options: ['Climate change', 'Habitat loss', 'Disease', 'Natural disasters'],
+                correctAnswer: 1,
+                explanation: 'Habitat loss due to human activities is the primary cause of species extinction in modern times.',
+                points: 20
+            }
+        ]
+    },
+    {
+        id: '6',
+        title: 'Sustainable Living Practices',
+        description: 'Learn practical ways to live more sustainably and reduce environmental impact.',
+        category: 'Sustainable Living',
+        difficulty: 'Beginner',
+        duration: 10,
+        points: 70,
+        image: 'https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=400',
+        questions: [
+            {
+                id: '6-1',
+                question: 'What is sustainable living?',
+                options: ['Living without technology', 'Reducing environmental impact through lifestyle choices', 'Living in rural areas only', 'Avoiding all modern conveniences'],
+                correctAnswer: 1,
+                explanation: 'Sustainable living means reducing environmental impact through conscious lifestyle choices.',
+                points: 7
+            },
+            {
+                id: '6-2',
+                question: 'Which transportation option is most environmentally friendly?',
+                options: ['Electric car', 'Bicycle', 'Hybrid car', 'Public transport'],
+                correctAnswer: 1,
+                explanation: 'Bicycles have the lowest environmental impact as they produce no emissions and require minimal resources.',
+                points: 7
+            },
+            {
+                id: '6-3',
+                question: 'What is fast fashion?',
+                options: ['Quick clothing repairs', 'Inexpensive, rapidly produced clothing', 'Seasonal clothing styles', 'Designer fashion shows'],
+                correctAnswer: 1,
+                explanation: 'Fast fashion refers to inexpensive clothing produced rapidly by mass-market retailers to meet trends.',
+                points: 7
+            },
+            {
+                id: '6-4',
+                question: 'Which diet has the lowest environmental impact?',
+                options: ['Mediterranean', 'Plant-based', 'Paleo', 'Low-carb'],
+                correctAnswer: 1,
+                explanation: 'Plant-based diets generally have the lowest environmental impact due to reduced resource use and emissions.',
+                points: 7
+            },
+            {
+                id: '6-5',
+                question: 'What is greenwashing?',
+                options: ['Cleaning with eco-friendly products', 'Misleading environmental claims by companies', 'Washing clothes sustainably', 'Growing green plants'],
+                correctAnswer: 1,
+                explanation: 'Greenwashing is when companies make misleading claims about their environmental practices or products.',
+                points: 7
+            }
+        ]
+    }
+];
+
+// Application State
+let currentView = 'dashboard';
+let currentQuiz = null;
+let currentQuestionIndex = 0;
+let selectedAnswers = {};
+let timeRemaining = 0;
+let timerInterval = null;
+let isAnswered = false;
+let userStats = {
+    totalPoints: 1250,
+    completedQuizzes: 15,
+    averageScore: 85,
+    currentStreak: 7,
+    rank: 5
+};
+
+// DOM Elements
+const mobileMenuButton = document.getElementById('mobileMenuButton');
+const sidebar = document.getElementById('sidebar');
+const closeSidebar = document.getElementById('closeSidebar');
+const backButton = document.getElementById('backButton');
+const pageTitle = document.getElementById('pageTitle');
+const dashboardView = document.getElementById('dashboardView');
+const quizView = document.getElementById('quizView');
+const resultsView = document.getElementById('resultsView');
+const quizGrid = document.getElementById('quizGrid');
+const searchInput = document.getElementById('searchInput');
+
+// Initialize Application
+document.addEventListener('DOMContentLoaded', function() {
+    initializeApp();
+    setupEventListeners();
+    renderQuizGrid();
+    updateStats();
+    
+    // Initialize AOS and Feather icons
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+    }
+    
+    if (typeof feather !== 'undefined') {
+        feather.replace();
+    }
+});
+
+function initializeApp() {
+    showView('dashboard');
+}
+
+function setupEventListeners() {
+    // Mobile menu
+    mobileMenuButton.addEventListener('click', toggleSidebar);
+    closeSidebar.addEventListener('click', toggleSidebar);
+    
+    // Navigation
+    backButton.addEventListener('click', backToDashboard);
+    
+    // Search and filters
+    searchInput.addEventListener('input', handleSearch);
+    
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', handleCategoryFilter);
+    });
+    
+    // Quiz controls
+    document.getElementById('exitQuiz')?.addEventListener('click', backToDashboard);
+    document.getElementById('nextButton')?.addEventListener('click', handleNextQuestion);
+    
+    // Results actions
+    document.getElementById('takeAnotherQuiz')?.addEventListener('click', backToDashboard);
+    document.getElementById('shareResults')?.addEventListener('click', shareResults);
+    
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 768 && 
+            sidebar.classList.contains('active') && 
+            !sidebar.contains(e.target) && 
+            !mobileMenuButton.contains(e.target)) {
+            toggleSidebar();
+        }
+    });
+}
+
+function toggleSidebar() {
+    sidebar.classList.toggle('active');
+}
+
+function showView(viewName) {
+    // Hide all views
+    document.querySelectorAll('.view').forEach(view => {
+        view.classList.remove('active');
+    });
+    
+    // Show selected view
+    const targetView = document.getElementById(viewName + 'View');
+    if (targetView) {
+        targetView.classList.add('active');
+    }
+    
+    // Update header
+    updateHeader(viewName);
+    currentView = viewName;
+}
+
+function updateHeader(viewName) {
+    const backButton = document.getElementById('backButton');
+    const pageTitle = document.getElementById('pageTitle');
+    
+    switch (viewName) {
+        case 'dashboard':
+            backButton.style.display = 'none';
+            pageTitle.textContent = 'Quiz Dashboard';
+            break;
+        case 'quiz':
+            backButton.style.display = 'block';
+            pageTitle.textContent = currentQuiz ? currentQuiz.title : 'Quiz';
+            break;
+        case 'results':
+            backButton.style.display = 'block';
+            pageTitle.textContent = 'Quiz Results';
+            break;
+    }
+}
+
+function updateStats() {
+    document.getElementById('totalPoints').textContent = userStats.totalPoints.toLocaleString();
+    document.getElementById('completedQuizzes').textContent = userStats.completedQuizzes;
+    document.getElementById('averageScore').textContent = userStats.averageScore + '%';
+    document.getElementById('currentStreak').textContent = userStats.currentStreak + ' days';
+    document.getElementById('headerPoints').textContent = userStats.totalPoints + ' points';
+}
+
+function renderQuizGrid(filteredQuizzes = quizzes) {
+    const grid = document.getElementById('quizGrid');
+    
+    if (filteredQuizzes.length === 0) {
+        grid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                <i data-feather="book-open" style="width: 4rem; height: 4rem; color: #d1d5db; margin-bottom: 1rem;"></i>
+                <p style="color: #6b7280;">No quizzes found matching your criteria.</p>
+            </div>
+        `;
+        feather.replace();
+        return;
+    }
+    
+    grid.innerHTML = filteredQuizzes.map(quiz => `
+        <div class="quiz-card" onclick="startQuiz('${quiz.id}')">
+            <div class="quiz-image">
+                <img src="${quiz.image}" alt="${quiz.title}">
+            </div>
+            <div class="quiz-content">
+                <div class="quiz-header">
+                    <span class="difficulty-badge ${quiz.difficulty.toLowerCase()}">${quiz.difficulty}</span>
+                    <div class="quiz-points">
+                        <i data-feather="star"></i>
+                        <span>${quiz.points} pts</span>
+                    </div>
+                </div>
+                <h3 class="quiz-title">${quiz.title}</h3>
+                <p class="quiz-description">${quiz.description}</p>
+                <div class="quiz-meta">
+                    <div class="quiz-meta-item">
+                        <i data-feather="clock"></i>
+                        <span>${quiz.duration} min</span>
+                    </div>
+                    <div class="quiz-meta-item">
+                        <i data-feather="user"></i>
+                        <span>${quiz.questions.length} questions</span>
+                    </div>
+                </div>
+                <button class="start-quiz-btn">Start Quiz</button>
+            </div>
+        </div>
+    `).join('');
+    
+    feather.replace();
+}
+
+function handleSearch() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const activeCategory = document.querySelector('.filter-btn.active').dataset.category;
+    
+    const filtered = quizzes.filter(quiz => {
+        const matchesCategory = activeCategory === 'all' || quiz.category === activeCategory;
+        const matchesSearch = quiz.title.toLowerCase().includes(searchTerm) ||
+                             quiz.description.toLowerCase().includes(searchTerm);
+        return matchesCategory && matchesSearch;
+    });
+    
+    renderQuizGrid(filtered);
+}
+
+function handleCategoryFilter(e) {
+    // Update active filter
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    e.target.classList.add('active');
+    
+    // Filter quizzes
+    handleSearch();
+}
+
+function startQuiz(quizId) {
+    currentQuiz = quizzes.find(q => q.id === quizId);
+    if (!currentQuiz) return;
+    
+    currentQuestionIndex = 0;
+    selectedAnswers = {};
+    timeRemaining = currentQuiz.duration * 60;
+    isAnswered = false;
+    
+    showView('quiz');
+    setupQuizTimer();
+    displayQuestion();
+}
+
+function setupQuizTimer() {
+    const timerElement = document.getElementById('timeRemaining');
+    
+    timerInterval = setInterval(() => {
+        if (timeRemaining > 0) {
+            timeRemaining--;
+            updateTimerDisplay();
+            
+            // Warning when less than 5 minutes
+            if (timeRemaining < 300) {
+                timerElement.classList.add('warning');
+            }
+        } else {
+            completeQuiz();
+        }
+    }, 1000);
+    
+    updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+    const minutes = Math.floor(timeRemaining / 60);
+    const seconds = timeRemaining % 60;
+    document.getElementById('timeRemaining').textContent = 
+        `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
+
+function displayQuestion() {
+    const question = currentQuiz.questions[currentQuestionIndex];
+    const progress = ((currentQuestionIndex) / currentQuiz.questions.length) * 100;
+    
+    // Update progress
+    document.getElementById('progressFill').style.width = progress + '%';
+    document.getElementById('quizProgress').textContent = 
+        `Question ${currentQuestionIndex + 1} of ${currentQuiz.questions.length}`;
+    
+    // Update question
+    document.getElementById('questionText').textContent = question.question;
+    document.getElementById('questionPoints').textContent = question.points;
+    
+    // Update options
+    const optionsContainer = document.getElementById('optionsContainer');
+    optionsContainer.innerHTML = question.options.map((option, index) => `
+        <button class="option-btn" onclick="selectAnswer(${index})">
+            <span class="option-letter">${String.fromCharCode(65 + index)}</span>
+            <span>${option}</span>
+        </button>
+    `).join('');
+    
+    // Hide explanation and next button
+    document.getElementById('explanationCard').style.display = 'none';
+    document.getElementById('nextButton').style.display = 'none';
+    
+    // Check if already answered
+    isAnswered = selectedAnswers[currentQuestionIndex] !== undefined;
+    if (isAnswered) {
+        showAnswerFeedback();
+    }
+}
+
+function selectAnswer(answerIndex) {
+    if (isAnswered) return;
+    
+    const question = currentQuiz.questions[currentQuestionIndex];
+    selectedAnswers[currentQuestionIndex] = answerIndex;
+    isAnswered = true;
+    
+    showAnswerFeedback();
+}
+
+function showAnswerFeedback() {
+    const question = currentQuiz.questions[currentQuestionIndex];
+    const selectedAnswer = selectedAnswers[currentQuestionIndex];
+    const correctAnswer = question.correctAnswer;
+    
+    // Update option buttons
+    const optionButtons = document.querySelectorAll('.option-btn');
+    optionButtons.forEach((btn, index) => {
+        btn.classList.add('disabled');
+        
+        if (index === correctAnswer) {
+            btn.classList.add('correct');
+            btn.innerHTML += '<i data-feather="check-circle" class="option-check"></i>';
+        } else if (index === selectedAnswer && index !== correctAnswer) {
+            btn.classList.add('incorrect');
+        }
+    });
+    
+    // Show explanation
+    document.getElementById('explanationText').textContent = question.explanation;
+    document.getElementById('explanationCard').style.display = 'block';
+    
+    // Show next button
+    const nextButton = document.getElementById('nextButton');
+    const nextButtonText = document.getElementById('nextButtonText');
+    
+    if (currentQuestionIndex === currentQuiz.questions.length - 1) {
+        nextButtonText.textContent = 'Finish Quiz';
+    } else {
+        nextButtonText.textContent = 'Next Question';
+    }
+    
+    nextButton.style.display = 'flex';
+    
+    feather.replace();
+}
+
+function handleNextQuestion() {
+    if (currentQuestionIndex < currentQuiz.questions.length - 1) {
+        currentQuestionIndex++;
+        isAnswered = selectedAnswers[currentQuestionIndex] !== undefined;
+        displayQuestion();
+    } else {
+        completeQuiz();
+    }
+}
+
+function completeQuiz() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+    
+    const correctAnswers = currentQuiz.questions.reduce((count, question, index) => {
+        return selectedAnswers[index] === question.correctAnswer ? count + 1 : count;
+    }, 0);
+    
+    const score = (correctAnswers / currentQuiz.questions.length) * 100;
+    const pointsEarned = Math.round((score / 100) * currentQuiz.points);
+    const timeTaken = (currentQuiz.duration * 60) - timeRemaining;
+    
+    const result = {
+        quizId: currentQuiz.id,
+        score,
+        totalQuestions: currentQuiz.questions.length,
+        correctAnswers,
+        timeTaken,
+        pointsEarned,
+        completedAt: new Date()
+    };
+    
+    // Update user stats
+    userStats.totalPoints += pointsEarned;
+    userStats.completedQuizzes += 1;
+    updateStats();
+    
+    showResults(result);
+}
+
+function showResults(result) {
+    showView('results');
+    
+    // Performance message
+    let performanceMessage = '';
+    if (result.score >= 90) performanceMessage = "Outstanding Performance! 🎉";
+    else if (result.score >= 80) performanceMessage = "Great Job! 👏";
+    else if (result.score >= 70) performanceMessage = "Good Work! 👍";
+    else if (result.score >= 60) performanceMessage = "Keep Practicing! 📚";
+    else performanceMessage = "Need More Practice 💪";
+    
+    document.getElementById('performanceMessage').textContent = performanceMessage;
+    
+    // Results stats
+    document.getElementById('finalScore').textContent = Math.round(result.score) + '%';
+    document.getElementById('correctAnswers').textContent = `${result.correctAnswers}/${result.totalQuestions}`;
+    document.getElementById('pointsEarned').textContent = result.pointsEarned;
+    
+    // Detailed stats
+    const minutes = Math.floor(result.timeTaken / 60);
+    const seconds = result.timeTaken % 60;
+    document.getElementById('timeTaken').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    document.getElementById('accuracy').textContent = Math.round((result.correctAnswers / result.totalQuestions) * 100) + '%';
+    
+    // Grade
+    let grade = 'F';
+    if (result.score >= 90) grade = 'A';
+    else if (result.score >= 80) grade = 'B';
+    else if (result.score >= 70) grade = 'C';
+    else if (result.score >= 60) grade = 'D';
+    document.getElementById('grade').textContent = grade;
+    
+    // Badge
+    let badge = { name: "Keep Learning", icon: "📚" };
+    if (result.score >= 95) badge = { name: "Perfect Score", icon: "🏆" };
+    else if (result.score >= 90) badge = { name: "Excellence", icon: "🌟" };
+    else if (result.score >= 80) badge = { name: "Great Job", icon: "🎯" };
+    else if (result.score >= 70) badge = { name: "Good Effort", icon: "👍" };
+    
+    document.getElementById('badgeIcon').textContent = badge.icon;
+    document.getElementById('badgeName').textContent = badge.name;
+    document.getElementById('badgePoints').textContent = `+${result.pointsEarned} EcoPoints`;
+    
+    // Performance analysis
+    document.getElementById('correctRatio').textContent = `${result.correctAnswers}/${result.totalQuestions}`;
+    document.getElementById('overallScore').textContent = Math.round(result.score) + '%';
+    
+    // Update progress bars
+    setTimeout(() => {
+        document.getElementById('correctBar').style.width = 
+            ((result.correctAnswers / result.totalQuestions) * 100) + '%';
+        
+        const scoreBar = document.getElementById('scoreBar');
+        scoreBar.style.width = result.score + '%';
+        
+        if (result.score >= 80) scoreBar.classList.add('green');
+        else if (result.score >= 60) scoreBar.style.background = '#fbbf24';
+        else scoreBar.style.background = '#ef4444';
+    }, 500);
+}
+
+function backToDashboard() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+    
+    currentQuiz = null;
+    currentQuestionIndex = 0;
+    selectedAnswers = {};
+    isAnswered = false;
+    
+    showView('dashboard');
+}
+
+function shareResults() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'EcoQuest Quiz Results',
+            text: `I just completed a quiz on EcoQuest and scored ${document.getElementById('finalScore').textContent}!`,
+            url: window.location.href
+        });
+    } else {
+        // Fallback for browsers that don't support Web Share API
+        const text = `I just completed a quiz on EcoQuest and scored ${document.getElementById('finalScore').textContent}!`;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Results copied to clipboard!');
+        });
+    }
+}
+
+// Utility function to format time
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes}:${secs.toString().padStart(2, '0')}`;
+}
+// Initialize the application when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.ecoQuest = new EcoQuestApp();
+    
+    // Add some demo notifications periodically
+    setInterval(() => {
+        if (Math.random() < 0.1) { // 10% chance every interval
+            const messages = [
+                { title: 'New Badge Earned!', message: 'You just earned the Tree Planter badge!', type: 'success' },
+                { title: 'Weekly Challenge', message: 'New weekly challenge available!', type: 'info' },
+                { title: 'Friend Activity', message: 'Alex completed the Water Conservation lesson', type: 'info' }
+            ];
+            smth/quizzes.html
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            const newNotification = {
+                id: Date.now(),
+                title: randomMessage.title,
+                message: randomMessage.message,
+                time: 'Just now',
+                unread: true
+            };
+            
+            window.ecoQuest.state.notifications.unshift(newNotification);
+            if (window.ecoQuest.state.notifications.length > 10) {
+                window.ecoQuest.state.notifications.pop();
+            }
+            
+            window.ecoQuest.renderNotifications();
+            window.ecoQuest.showToast(randomMessage.title, randomMessage.message, randomMessage.type || 'info');
+        }
+    }, 30000); // Check every 30 seconds
+});
     </script>
 </body>
 </html>

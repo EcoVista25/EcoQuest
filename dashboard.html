@@ -756,6 +756,178 @@
             transform: scale(1.02);
         }
 
+        /* Lessons and Challenges Styles */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .lesson-card, .challenge-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .lesson-card:hover, .challenge-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .content-card-image {
+            height: 10rem;
+            overflow: hidden;
+        }
+
+        .content-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .lesson-card:hover .content-card-image img, 
+        .challenge-card:hover .content-card-image img {
+            transform: scale(1.05);
+        }
+
+        .content-card-body {
+            padding: 1.5rem;
+        }
+
+        .content-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .content-status {
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 9999px;
+        }
+
+        .status-new {
+            background: var(--primary-light);
+            color: var(--primary-color);
+        }
+
+        .status-in-progress {
+            background: var(--accent-light);
+            color: var(--accent-color);
+        }
+
+        .status-completed {
+            background: var(--secondary-light);
+            color: var(--secondary-color);
+        }
+
+        .content-duration {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+
+        .content-duration svg {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .content-card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--gray-900);
+        }
+
+        .content-card-description {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .content-card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .content-card-category {
+            background: var(--gray-100);
+            color: var(--gray-700);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+        }
+
+        .content-points {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .content-points svg {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .content-card-btn {
+            width: 100%;
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .content-card-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.02);
+        }
+
+        .progress-bar-container {
+            margin-top: 1rem;
+        }
+
+        .progress-label {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin-bottom: 0.25rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 0.5rem;
+            background: var(--gray-200);
+            border-radius: 9999px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--secondary-color);
+            border-radius: 9999px;
+            transition: width 0.3s;
+        }
+
         /* Quiz Taking Styles */
         .quiz-taking-header {
             background: var(--white);
@@ -813,21 +985,6 @@
 
         .exit-btn:hover {
             color: var(--gray-800);
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 0.5rem;
-            background: var(--gray-200);
-            border-radius: 9999px;
-            margin-bottom: 1.5rem;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--primary-color);
-            border-radius: 9999px;
-            transition: width 0.3s;
         }
 
         .question-card {
@@ -1147,6 +1304,10 @@
             .challenge-btn {
                 align-self: stretch;
             }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 640px) {
@@ -1408,6 +1569,414 @@
             </div>
         </div>
 
+        <!-- Lessons Content -->
+        <div id="lessonsContent" class="content-section">
+            <div class="content-grid" data-aos="fade-up">
+                <div class="lesson-card">
+                    <div class="content-card-image">
+                        <img src="https://images.pexels.com/photos/416528/pexels-photo-416528.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Water Conservation">
+                    </div>
+                    <div class="content-card-body">
+                        <div class="content-card-header">
+                            <span class="content-status status-completed">Completed</span>
+                            <div class="content-duration">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12,6 12,12 16,14"></polyline>
+                                </svg>
+                                <span>45 min</span>
+                            </div>
+                        </div>
+                        <h3 class="content-card-title">Water Conservation Fundamentals</h3>
+                        <p class="content-card-description">Learn essential water conservation techniques, understand global water scarcity issues, and discover practical methods to reduce water waste in daily life.</p>
+                        <div class="content-card-meta">
+                            <span class="content-card-category">Water Conservation</span>
+                            <div class="content-points">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"></polygon>
+                                </svg>
+                                <span>100 pts</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-label">Progress: 100%</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                        <button class="content-card-btn">Review Lesson</button>
+                    </div>
+                </div>
+
+                <div class="lesson-card">
+                    <div class="content-card-image">
+                        <img src="https://images.pexels.com/photos/356036/pexels-photo-356036.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Solar Energy">
+                    </div>
+                    <div class="content-card-body">
+                        <div class="content-card-header">
+                            <span class="content-status status-in-progress">In Progress</span>
+                            <div class="content-duration">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12,6 12,12 16,14"></polyline>
+                                </svg>
+                                <span>60 min</span>
+                            </div>
+                        </div>
+                        <h3 class="content-card-title">Solar Energy Systems</h3>
+                        <p class="content-card-description">Explore photovoltaic technology, solar panel installation, grid integration, and the economic benefits of solar energy adoption.</p>
+                        <div class="content-card-meta">
+                            <span class="content-card-category">Renewable Energy</span>
+                            <div class="content-points">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"></polygon>
+                                </svg>
+                                <span>150 pts</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-label">Progress: 65%</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%;"></div>
+                            </div>
+                        </div>
+                        <button class="content-card-btn">Continue Learning</button>
+                    </div>
+                </div>
+
+                <div class="lesson-card">
+                    <div class="content-card-image">
+                        <img src="https://images.pexels.com/photos/3850512/pexels-photo-3850512.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Waste Management">
+                    </div>
+                    <div class="content-card-body">
+                        <div class="content-card-header">
+                            <span class="content-status status-new">New</span>
+                            <div class="content-duration">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12,6 12,12 16,14"></polyline>
+                                </svg>
+                                <span>40 min</span>
+                            </div>
+                        </div>
+                        <h3 class="content-card-title">Circular Economy & Waste Reduction</h3>
+                        <p class="content-card-description">Master the principles of circular economy, waste segregation methods, recycling processes, and zero-waste lifestyle practices.</p>
+                        <div class="content-card-meta">
+                            <span class="content-card-category">Waste Management</span>
+                            <div class="content-points">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"></polygon>
+                                </svg>
+                                <span>120 pts</span>
+                            </div>
+                        </div>
+                        <button class="content-card-btn">Start Learning</button>
+                    </div>
+                </div>
+
+                <div class="lesson-card">
+                    <div class="content-card-image">
+                        <img src="https://images.pexels.com/photos/60013/desert-drought-dehydrated-clay-soil-60013.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Climate Change">
+                    </div>
+                    <div class="content-card-body">
+                        <div class="content-card-header">
+                            <span class="content-status status-new">New</span>
+                            <div class="content-duration">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12,6 12,12 16,14"></polyline>
+                                </svg>
+                                <span>75 min</span>
+                            </div>
+                        </div>
+                        <h3 class="content-card-title">Climate Science & Mitigation</h3>
+                        <p class="content-card-description">Understand climate change mechanisms, greenhouse gas effects, carbon footprint calculation, and effective mitigation strategies.</p>
+                        <div class="content-card-meta">
+                            <span class="content-card-category">Climate Change</span>
+                            <div class="content-points">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"></polygon>
+                                </svg>
+                                <span>180 pts</span>
+                            </div>
+                        </div>
+                        <button class="content-card-btn">Start Learning</button>
+                    </div>
+                </div>
+
+                <div class="lesson-card">
+                    <div class="content-card-image">
+                        <img src="https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Biodiversity">
+                    </div>
+                    <div class="content-card-body">
+                        <div class="content-card-header">
+                            <span class="content-status status-new">New</span>
+                            <div class="content-duration">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12,6 12,12 16,14"></polyline>
+                                </svg>
+                                <span>90 min</span>
+                            </div>
+                        </div>
+                        <h3 class="content-card-title">Biodiversity Conservation</h3>
+                        <p class="content-card-description">Explore ecosystem dynamics, species conservation methods, habitat protection strategies, and the importance of biodiversity for planetary health.</p>
+                        <div class="content-card-meta">
+                            <span class="content-card-category">Biodiversity</span>
+                            <div class="content-points">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"></polygon>
+                                </svg>
+                                <span>200 pts</span>
+                            </div>
+                        </div>
+                        <button class="content-card-btn">Start Learning</button>
+                    </div>
+                </div>
+
+                <div class="lesson-card">
+                    <div class="content-card-image">
+                        <img src="https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Sustainable Living">
+                    </div>
+                    <div class="content-card-body">
+                        <div class="content-card-header">
+                            <span class="content-status status-new">New</span>
+                            <div class="content-duration">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12,6 12,12 16,14"></polyline>
+                                </svg>
+                                <span>35 min</span>
+                            </div>
+                        </div>
+                        <h3 class="content-card-title">Sustainable Lifestyle Practices</h3>
+                        <p class="content-card-description">Learn practical sustainable living techniques, eco-friendly product choices, sustainable transportation, and green consumption habits.</p>
+                        <div class="content-card-meta">
+                            <span class="content-card-category">Sustainable Living</span>
+                            <div class="content-points">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"></polygon>
+                                </svg>
+                                <span>90 pts</span>
+                            </div>
+                        </div>
+                        <button class="content-card-btn">Start Learning</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenges Content -->
+        <div id="challengesContent" class="content-section">
+            <div class="content-grid" data-aos="fade-up">
+                <div class="challenge-card">
+                    <div class="content-card-image">
+                        <img src="https://images.pexels.com/photos/416528/pexels-photo-416528.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Water Challenge">
+                    </div>
+                    <div class="content-card-body">
+                        <div class="content-card-header">
+                            <span class="content-status status-in-progress">Active</span>
+                            <div class="content-duration">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <calendar xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    </calendar>
+                                </svg>
+                                <span>7 days</span>
+                            </div>
+                        </div>
+                        <h3 class="content-card-title">7-Day Water Conservation Challenge</h3>
+                        <p class="content-card-description">Reduce your daily water consumption by 30%. Track water usage, fix leaks, take shorter showers, and implement water-saving techniques.</p>
+                        <div class="content-card-meta">
+                            <span class="content-card-category">Water Conservation</span>
+                            <div class="content-points">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"></polygon>
+                                </svg>
+                                <span>250 pts</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-label">Day 3 of 7</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 43%;"></div>
+                            </div>
+                        </div>
+                        <button class="content-card-btn">Continue Challenge</button>
+                    </div>
+                </div>
+
+                <div class="challenge-card">
+                    <div class="content-card-image">
+                        <img src="https://images.pexels.com/photos/3850512/pexels-photo-3850512.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Zero Waste Challenge">
+                    </div>
+                    <div class="content-card-body">
+                        <div class="content-card-header">
+                            <span class="content-status status-new">New</span>
+                            <div class="content-duration">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                <span>14 days</span>
+                            </div>
+                        </div>
+                        <h3 class="content-card-title">Zero Waste Weekend Challenge</h3>
+                        <p class="content-card-description">Go completely zero waste for 14 days. Eliminate single-use items, practice proper recycling, composting, and sustainable shopping.</p>
+                        <div class="content-card-meta">
+                            <span class="content-card-category">Waste Management</span>
+                            <div class="content-points">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"></polygon>
+                                </svg>
+                                <span>400 pts</span>
+                            </div>
+                        </div>
+                        <button class="content-card-btn">Start Challenge</button>
+                    </div>
+                </div>
+
+                <div class="challenge-card">
+                    <div class="content-card-image">
+                        <img src="https://images.pexels.com/photos/356036/pexels-photo-356036.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Energy Challenge">
+                    </div>
+                    <div class="content-card-body">
+                        <div class="content-card-header">
+                            <span class="content-status status-new">New</span>
+                            <div class="content-duration">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                <span>30 days</span>
+                            </div>
+                        </div>
+                        <h3 class="content-card-title">Energy Efficiency Month</h3>
+                        <p class="content-card-description">Reduce household energy consumption by 25%. Switch to LED bulbs, optimize heating/cooling, unplug devices, and track energy usage.</p>
+                        <div class="content-card-meta">
+                            <span class="content-card-category">Renewable Energy</span>
+                            <div class="content-points">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"></polygon>
+                                </svg>
+                                <span>500 pts</span>
+                            </div>
+                        </div>
+                        <button class="content-card-btn">Start Challenge</button>
+                    </div>
+                </div>
+
+                <div class="challenge-card">
+                    <div class="content-card-image">
+                        <img src="https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Sustainable Transport">
+                    </div>
+                    <div class="content-card-body">
+                        <div class="content-card-header">
+                            <span class="content-status status-completed">Completed</span>
+                            <div class="content-duration">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                <span>21 days</span>
+                            </div>
+                        </div>
+                        <h3 class="content-card-title">Sustainable Transport Challenge</h3>
+                        <p class="content-card-description">Use only eco-friendly transport for 21 days. Walk, cycle, use public transport, carpool, or work from home to reduce carbon emissions.</p>
+                        <div class="content-card-meta">
+                            <span class="content-card-category">Sustainable Living</span>
+                            <div class="content-points">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"></polygon>
+                                </svg>
+                                <span>350 pts</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-label">Completed Successfully!</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                        <button class="content-card-btn">View Results</button>
+                    </div>
+                </div>
+
+                <div class="challenge-card">
+                    <div class="content-card-image">
+                        <img src="https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Biodiversity Challenge">
+                    </div>
+                    <div class="content-card-body">
+                        <div class="content-card-header">
+                            <span class="content-status status-new">New</span>
+                            <div class="content-duration">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                <span>10 days</span>
+                            </div>
+                        </div>
+                        <h3 class="content-card-title">Urban Gardening Challenge</h3>
+                        <p class="content-card-description">Create a mini ecosystem at home. Plant native species, build pollinator gardens, compost organic waste, and document biodiversity.</p>
+                        <div class="content-card-meta">
+                            <span class="content-card-category">Biodiversity</span>
+                            <div class="content-points">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"></polygon>
+                                </svg>
+                                <span>300 pts</span>
+                            </div>
+                        </div>
+                        <button class="content-card-btn">Start Challenge</button>
+                    </div>
+                </div>
+
+                <div class="challenge-card">
+                    <div class="content-card-image">
+                        <img src="https://images.pexels.com/photos/60013/desert-drought-dehydrated-clay-soil-60013.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Carbon Footprint">
+                    </div>
+                    <div class="content-card-body">
+                        <div class="content-card-header">
+                            <span class="content-status status-new">New</span>
+                            <div class="content-duration">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                <span>28 days</span>
+                            </div>
+                        </div>
+                        <h3 class="content-card-title">Carbon Neutral Challenge</h3>
+                        <p class="content-card-description">Offset your entire carbon footprint for a month. Calculate emissions, reduce consumption, and participate in carbon offset programs.</p>
+                        <div class="content-card-meta">
+                            <span class="content-card-category">Climate Change</span>
+                            <div class="content-points">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"></polygon>
+                                </svg>
+                                <span>600 pts</span>
+                            </div>
+                        </div>
+                        <button class="content-card-btn">Start Challenge</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Quizzes Content -->
         <div id="quizzesContent" class="content-section">
             <div class="filters-section" data-aos="fade-up" data-aos-delay="100">
@@ -1536,23 +2105,7 @@
             </div>
         </div>
 
-        <!-- Other sections placeholder -->
-        <div id="lessonsContent" class="content-section">
-            <div style="text-align: center; padding: 4rem 2rem;">
-                <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;">📚</div>
-                <h2 style="font-size: 2rem; margin-bottom: 1rem; color: var(--gray-600);">Lessons</h2>
-                <p style="color: var(--gray-500);">This section is under development.</p>
-            </div>
-        </div>
-
-        <div id="challengesContent" class="content-section">
-            <div style="text-align: center; padding: 4rem 2rem;">
-                <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;">🏆</div>
-                <h2 style="font-size: 2rem; margin-bottom: 1rem; color: var(--gray-600);">Challenges</h2>
-                <p style="color: var(--gray-500);">This section is under development.</p>
-            </div>
-        </div>
-
+        <!-- Community Content -->
         <div id="communityContent" class="content-section">
             <div style="text-align: center; padding: 4rem 2rem;">
                 <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;">👥</div>
@@ -2399,6 +2952,4 @@
         }
     </script>
 </body>
-
 </html>
-
